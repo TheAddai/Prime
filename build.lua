@@ -4,6 +4,7 @@ objDir = "%{wks.location}/bin-int"
 
 includeDirs = {}
 includeDirs["engine"] = "%{wks.location}/engine/src"
+includeDirs["spdlog"] = "%{wks.location}/vendor/spdlog/include"
 
 workspace "prime"
     startproject "editor"
@@ -17,6 +18,11 @@ workspace "prime"
     flags 
     {
         "MultiProcessorCompile"
+    }
+
+    disablewarnings
+    {
+
     }
 
     filter {"system:windows", "configurations:*"}

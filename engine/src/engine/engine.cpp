@@ -1,6 +1,7 @@
 
 #include "pch.h"
 #include "engine.h"
+#include "core/logger.h"
 
 namespace prime {
 
@@ -13,6 +14,7 @@ namespace prime {
 
 	void Engine::Run(App* app)
 	{
+		Logger::Init();
 		app->Init();
 		s_running = true;
 
@@ -22,5 +24,6 @@ namespace prime {
 		}
 
 		app->Shutdown();
+		Logger::Shutdown();
 	}
 }
