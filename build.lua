@@ -20,10 +20,7 @@ workspace "prime"
         "MultiProcessorCompile"
     }
 
-    disablewarnings
-    {
-
-    }
+    externalwarnings "off"
 
     filter {"system:windows", "configurations:*"}
         architecture "x64"

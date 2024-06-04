@@ -1,7 +1,7 @@
 
 #include "pch.h"
 #include "engine.h"
-#include "core/logger.h"
+#include "core/assert.h"
 
 namespace prime {
 
