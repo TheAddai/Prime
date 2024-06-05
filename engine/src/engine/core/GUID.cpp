@@ -10,7 +10,7 @@ static std::uniform_int_distribution<uint64_t> s_uniformDistribution;
 
 namespace prime {
 
-	GUID::GUID() : m_GUID(s_uniformDistribution(s_engine)) {}
+	GUID::GUID() : m_gUID(s_uniformDistribution(s_engine)) {}
 
-	GUID::GUID(uint64_t _GUID) : m_GUID(_GUID) {}
+	GUID::GUID(uint64_t _GUID) : m_gUID(_GUID) {}
 }

@@ -20,7 +20,7 @@ namespace prime {
 		static std::shared_ptr<Scene> Create();
 
 		Entity CreateEntity(std::string& name);
-		Entity CreateEntityWithGUID(GUID& _GUID, std::string& name);
+		Entity CreateEntityWithGUID(GUID& gUID, std::string& name);
 
 		void DestroyEntity(Entity& entity);
 
