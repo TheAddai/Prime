@@ -2,7 +2,8 @@
 
 #include "engine/core/core.h"
 #include "engine/core/GUID.h"
-#include <memory>
+#include "engine/core/ref.h"
+
 #include <entt/entt.hpp>
 #include <string>
 
@@ -18,8 +19,6 @@ namespace prime {
 	class Scene
 	{
 	public:
-		static std::shared_ptr<Scene> Create();
-
 		Entity CreateEntity(std::string& name);
 		Entity CreateEntityWithGUID(GUID& gUID, std::string& name);
 
@@ -30,9 +29,12 @@ namespace prime {
 
 		void Render(SceneState state);
 
+		static Ref<Scene> Create();
+
 	private:
 		SceneState m_state;
 		entt::registry m_registry;
+
 		friend class Entity;
 	};
 }

@@ -6,11 +6,6 @@
 
 namespace prime {
 
-	std::shared_ptr<Scene> Scene::Create()
-	{
-		return std::make_shared<Scene>();
-	}
-
 	Entity Scene::CreateEntity(std::string& name)
 	{
 		return CreateEntityWithGUID(GUID(), name);
@@ -34,5 +29,10 @@ namespace prime {
 	void Scene::Render(SceneState state)
 	{
 
+	}
+
+	Ref<Scene> Scene::Create()
+	{
+		return CreateRef<Scene>();
 	}
 }
