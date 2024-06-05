@@ -6,6 +6,7 @@ includeDirs = {}
 includeDirs["engine"] = "%{wks.location}/engine/src"
 includeDirs["spdlog"] = "%{wks.location}/vendor/spdlog/include"
 includeDirs["entt"] = "%{wks.location}/vendor/entt/include"
+includeDirs["glfw"] = "%{wks.location}/vendor/glfw/include"
 
 workspace "prime"
     startproject "editor"
@@ -39,5 +40,11 @@ workspace "prime"
         optimize "full"
 
 
-    include "engine/engine.lua"
-    include "editor/editor.lua"
+    group "core"
+        include "engine/engine.lua"
+        include "editor/editor.lua"
+    group ""
+
+    group "vendor"
+        include "vendor/glfw/glfw.lua"
+    group ""

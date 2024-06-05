@@ -24,5 +24,11 @@ project "engine"
     externalincludedirs
     {
         "%{includeDirs.spdlog}",
-        "%{includeDirs.entt}"
+        "%{includeDirs.entt}",
+        "%{includeDirs.glfw}"
+    }
+
+    links
+    {
+        "glfw"
     }

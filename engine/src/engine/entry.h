@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/platform.h"
+#include "platform/platform.h"
 #include "engine.h"
 
 #ifdef PPLATFORM_WINDOWS

@@ -9,7 +9,7 @@
 #include "core/GUID.h"
 #include "core/keys.h"
 #include "core/logger.h"
-#include "core/platform.h"
+#include "core/window.h"
 
 // events
 #include "events/all.h"
