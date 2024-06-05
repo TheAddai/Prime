@@ -14,10 +14,10 @@ namespace prime {
 		void Bind() const override;
 		void Unbind() const override;
 
-		void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
+		void SetVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
 		void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
-		const Ref<VertexBuffer>& GetVertexBuffers() const override { return m_vertexBuffer; }
+		const Ref<VertexBuffer>& GetVertexBuffer() const override { return m_vertexBuffer; }
 		const Ref<IndexBuffer>& GetIndexBuffer() const override { return m_indexBuffer; }
 
 	private:

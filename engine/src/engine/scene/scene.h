@@ -24,12 +24,15 @@ namespace prime {
 
 		void DestroyEntity(Entity& entity);
 
-		void SetSatte(SceneState state) { m_state = state; }
+		void SetState(SceneState state) { m_state = state; }
 		PINLINE SceneState GetState() { return m_state; }
 
-		void Render(SceneState state);
+		void Render();
 
 		static Ref<Scene> Create();
+
+	private:
+		void DrawEntities();
 
 	private:
 		SceneState m_state = SceneState::editor;

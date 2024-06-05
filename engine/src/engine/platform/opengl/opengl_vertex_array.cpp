@@ -38,7 +38,7 @@ namespace prime {
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
+	void OpenGLVertexArray::SetVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
 		PASSERT_MSG(vertexBuffer->GetLayout().GetVertices().size(), "Vertex Buffer has no layout!");
 

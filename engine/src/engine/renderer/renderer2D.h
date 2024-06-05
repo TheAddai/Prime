@@ -2,8 +2,17 @@
 
 namespace prime {
 
+	class TransformComponent;
+	class SpriteComponent;
+
 	class Renderer2D
 	{
+	public:
+		static void Begin();
+		static void End();
+
+		static void DrawSprite(TransformComponent transform, SpriteComponent sprite);
+
 	private:
 		static void Init();
 		static void Shutdown();

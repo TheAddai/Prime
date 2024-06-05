@@ -3,6 +3,7 @@
 #include "scene.h"
 #include "entity.h"
 #include "components.h"
+#include "engine/renderer/renderer2D.h"
 
 namespace prime {
 
@@ -26,13 +27,29 @@ namespace prime {
 		m_registry.destroy(entity.GetID());
 	}
 
-	void Scene::Render(SceneState state)
+	void Scene::Render()
 	{
+		if (m_state == SceneState::editor)
+		{
+			Renderer2D::Begin();
+			DrawEntities();
+			Renderer2D::End();
+		}
+	}
 
+	void Scene::DrawEntities()
+	{
+		entt::basic_view sEs = m_registry.view<TransformComponent, SpriteComponent>();
+		for (entt::entity sE : sEs)
+		{
+			auto [sT, s] = sEs.get<TransformComponent, SpriteComponent>(sE);
+			Renderer2D::DrawSprite(sT, s);
+		}
 	}
 
 	Ref<Scene> Scene::Create()
 	{
 		return CreateRef<Scene>();
 	}
+	
 }

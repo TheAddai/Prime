@@ -4,8 +4,8 @@
 #include "render_command.h"
 #include "shader.h"
 #include "engine/core/filesystem.h"
-
-#include <glm/glm.hpp>
+#include "engine/utils/math.h"
+#include "engine/scene/components.h"
 
 namespace prime {
 
@@ -17,8 +17,10 @@ namespace prime {
 	struct Data
 	{
 		uint32_t maxSprites = 20;
+		glm::vec4 vertexPositions[4]{};
 
 		// sprite
+		uint32_t spriteIndexCount = 0;
 		Ref<VertexArray> spriteVertexArray;
 		Ref<Shader> spriteShader;
 		SpriteVertex* spriteVertexBase = nullptr;
@@ -27,8 +29,42 @@ namespace prime {
 
 	Data m_data;
 
+	void Renderer2D::Begin()
+	{
+		m_data.spriteIndexCount = 0;
+		m_data.spriteVertexPtr = m_data.spriteVertexBase;
+	}
+
+	void Renderer2D::End()
+	{
+		if (m_data.spriteIndexCount)
+		{
+			int64_t spriteDataSize = (uint8_t*)m_data.spriteVertexPtr - (uint8_t*)m_data.spriteVertexBase;
+			m_data.spriteVertexArray->GetVertexBuffer()->SetData(m_data.spriteVertexBase, (uint32_t)spriteDataSize);
+
+			m_data.spriteShader->Bind();
+			RenderCommand::Submit(m_data.spriteVertexArray, m_data.spriteIndexCount);
+		}
+	}
+
+	void Renderer2D::DrawSprite(TransformComponent transform, SpriteComponent sprite)
+	{
+		glm::mat4 matrix = GetTransform(transform);
+		for (auto i = 0; i < 4; i++)
+		{
+			m_data.spriteVertexPtr->position = matrix * m_data.vertexPositions[i];
+			m_data.spriteVertexPtr++;
+		}
+		m_data.spriteIndexCount += 6;
+	}
+
 	void Renderer2D::Init()
 	{
+		m_data.vertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+		m_data.vertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
+		m_data.vertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
+		m_data.vertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+
 		InitSpriteRendering();
 	}
 
@@ -42,13 +78,15 @@ namespace prime {
 		uint32_t maxVertices = m_data.maxSprites * 4;
 		uint32_t maxIndices = m_data.maxSprites * 6;
 
-		m_data.spriteVertexArray = VertexArray::Create();
-		Ref<VertexBuffer> spriteVB = VertexBuffer::Create(maxVertices * sizeof(SpriteVertex));
-		m_data.spriteVertexBase = new SpriteVertex[maxVertices];
-
 		VertexLayout spriteLayout = {
 			{ VertexType::position, "a_position" }
 		};
+
+		m_data.spriteVertexArray = VertexArray::Create();
+		Ref<VertexBuffer> spriteVB = VertexBuffer::Create(maxVertices * sizeof(SpriteVertex));
+		spriteVB->SetLayout(spriteLayout);
+		m_data.spriteVertexArray->SetVertexBuffer(spriteVB);
+		m_data.spriteVertexBase = new SpriteVertex[maxVertices];
 
 		// indices
 		uint32_t* indices = new uint32_t[maxIndices];
@@ -67,6 +105,7 @@ namespace prime {
 		}
 
 		Ref<IndexBuffer> spriteIB = IndexBuffer::Create(indices, maxIndices);
+		m_data.spriteVertexArray->SetIndexBuffer(spriteIB);
 		delete[] indices;
 
 		m_data.spriteShader = Filesystem::Loadshader("assets/shaders/sprite_vertex_shader.glsl",

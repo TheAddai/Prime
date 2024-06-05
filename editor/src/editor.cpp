@@ -8,8 +8,8 @@ namespace prime {
 		RenderCommand::SetClearColor({ .2f, .2f, .2f, 1.0f });
 
 		m_scene = Scene::Create();
-
 		Entity player = m_scene->CreateEntity("Player");
+		player.AddComponent<SpriteComponent>();
 	}
 
 	void Editor::Shutdown()
@@ -20,5 +20,8 @@ namespace prime {
 	void Editor::Update(Timestep& timestep)
 	{
 		RenderCommand::Clear();
+
+		m_scene->SetState(SceneState::editor);
+		m_scene->Render();
 	}
 }
