@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 namespace prime {
 
 	using Key = uint16_t;
