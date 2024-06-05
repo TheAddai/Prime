@@ -8,5 +8,6 @@
 #include "core/GUID.h"
 #include "core/keys.h"
 #include "core/logger.h"
+#include "core/ref.h"
 #include "timestep.h"
 #include "core/window.h"

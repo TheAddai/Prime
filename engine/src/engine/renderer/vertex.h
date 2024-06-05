@@ -46,6 +46,7 @@ namespace prime {
 	class VertexLayout
 	{
 	public:
+		VertexLayout() = default;
 		VertexLayout(std::initializer_list<Vertex> vertices) :m_vertices(vertices)
 		{
 			ProcessVertices();
