@@ -1,5 +1,7 @@
 #pragma once
 
+#include "engine/renderer/renderer.h"
+
 #include <string>
 
 namespace prime {
@@ -9,6 +11,7 @@ namespace prime {
 		uint32_t width = 640, height = 480;
 		bool fullscreen = false;
 		std::string title = "Prime Application";
+		GraphicsAPI graphicsAPI = GraphicsAPI::graphicsAPIOpenGL;
 	};
 
 	class App

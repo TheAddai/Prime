@@ -5,11 +5,13 @@
 #include "events/dispatcher.h"
 #include "events/window_events.h"
 #include "core/window.h"
+#include "renderer/all.h"
 
 namespace prime {
 
 	static bool s_running = false;
 	static Window s_window;
+	static std::unique_ptr<Context> s_context;
 
 	static void OnWindowClose(const WindowCloseEvent&)
 	{
@@ -34,6 +36,11 @@ namespace prime {
 		windowConfig.fullscreen = appConfig.fullscreen;
 		s_window.Init(windowConfig);
 
+		// context
+		Renderer::SetGraphicsAPI(appConfig.graphicsAPI);
+		s_context = Context::Create();
+		s_context->Init(s_window);
+
 		app->Init();
 
 		// subscribe to events
@@ -46,10 +53,13 @@ namespace prime {
 			Dispatcher::Get().update();
 			app->Update();
 			s_window.Update();
+
+			s_context->SwapBuffers();
 		}
 
 		app->Shutdown();
 		Dispatcher::Get().clear();
+		s_context->Shutdown();
 		s_window.Shutdown();
 		Logger::Shutdown();
 	}
