@@ -21,6 +21,8 @@ namespace prime {
 		Entity entity = Entity(m_registry.create(), this);
 		entity.AddComponent<IDComponent>(gUID);
 		entity.AddComponent<TransformComponent>();
+		auto& nameC = entity.AddComponent<EditorNameComponent>();
+		nameC.name = name.empty() ? "Entity" : name;
 		return entity;
 	}
 
