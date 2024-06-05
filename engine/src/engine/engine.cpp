@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "engine.h"
 #include "core/assert.h"
+#include "core/key.h"
 
 namespace prime {
 
