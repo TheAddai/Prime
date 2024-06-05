@@ -4,7 +4,7 @@
 
 namespace prime {
 
-	class FileSystem
+	class Filesystem
 	{
 	public:
 		static Ref<Shader> Loadshader(const std::string& vertexShaderSource, const std::string& pixelShaderSource);

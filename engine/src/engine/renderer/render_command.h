@@ -17,6 +17,12 @@ namespace prime {
 		{
 			s_rendererAPI->Clear();
 		}
+		
+		static void Submit(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0)
+		{
+			vertexArray->Bind();
+			s_rendererAPI->Submit(vertexArray, indexCount);
+		}
 
 	private:
 		static void Init()

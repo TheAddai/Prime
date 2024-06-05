@@ -13,7 +13,7 @@ namespace prime {
 		return s_shaders.find(shaderSources) != s_shaders.end();
 	}
 
-	Ref<Shader> FileSystem::Loadshader(const std::string& vertexShaderSource, const std::string& pixelShaderSource)
+	Ref<Shader> Filesystem::Loadshader(const std::string& vertexShaderSource, const std::string& pixelShaderSource)
 	{
 		std::pair<std::string, std::string> shaderSources;
 		shaderSources.first = vertexShaderSource;
@@ -31,7 +31,7 @@ namespace prime {
 		}
 	}
 
-	std::string FileSystem::LoadFile(std::string filepath)
+	std::string Filesystem::LoadFile(std::string filepath)
 	{
 		std::string result;
 		std::ifstream file(filepath, std::ios::in | std::ios::binary);

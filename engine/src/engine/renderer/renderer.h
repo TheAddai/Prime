@@ -15,6 +15,9 @@ namespace prime {
 	private:
 		static void SetGraphicsAPI(GraphicsAPI graphicsAPI);
 
+		static void Init();
+		static void Shutdown();
+
 		friend class Engine;
 	};
 }

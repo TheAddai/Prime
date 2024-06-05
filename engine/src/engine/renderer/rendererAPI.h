@@ -1,5 +1,7 @@
 #pragma once
 
+#include "vertex_array.h"
+
 #include <memory>
 #include <glm/glm.hpp>
 
@@ -11,6 +13,8 @@ namespace prime {
 		virtual void Init() = 0;
 		virtual void SetClearColor(const glm::vec4& color) = 0;
 		virtual void Clear() = 0;
+
+		virtual void Submit(const Ref<VertexArray>& vertexArray, uint32_t indexCount) = 0;
 
 		static std::unique_ptr<RendererAPI> Create();
 	};

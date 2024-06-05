@@ -10,5 +10,7 @@ namespace prime {
 		void Init();
 		void SetClearColor(const glm::vec4& color);
 		void Clear();
+
+		void Submit(const Ref<VertexArray>& vertexArray, uint32_t indexCount) override;
 	};
 }

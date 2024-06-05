@@ -39,6 +39,10 @@ namespace prime {
 		Renderer::SetGraphicsAPI(appConfig.graphicsAPI);
 		RenderCommand::Init();
 
+		// renderers
+		if (appConfig.type == appType2D) { Renderer2D::Init(); }
+		else if (appConfig.type == appType3D) { Renderer::Init(); Renderer2D::Init(); }
+
 		app->Init();
 
 		// subscribe to events
@@ -58,6 +62,10 @@ namespace prime {
 
 		app->Shutdown();
 		Dispatcher::Get().clear();
+
+		if (appConfig.type == appType2D) { Renderer2D::Shutdown(); }
+		else if (appConfig.type == appType3D) { Renderer::Shutdown(); Renderer2D::Shutdown(); }
+
 		s_window.Shutdown();
 		Logger::Shutdown();
 	}

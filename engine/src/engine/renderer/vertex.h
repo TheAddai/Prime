@@ -13,7 +13,7 @@ namespace prime {
 	{
 		switch (vertexType)
 		{
-		case VertexType::position: return 8; break;
+		case VertexType::position: return 12; break;
 		}
 		return 0;
 	}
@@ -22,7 +22,7 @@ namespace prime {
 	{
 		switch (vertexType)
 		{
-		case VertexType::position: return 2; break;
+		case VertexType::position: return 3; break;
 		}
 		return 0;
 	}

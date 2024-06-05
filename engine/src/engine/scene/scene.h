@@ -19,8 +19,8 @@ namespace prime {
 	class Scene
 	{
 	public:
-		Entity CreateEntity(std::string& name);
-		Entity CreateEntityWithGUID(GUID& gUID, std::string& name);
+		Entity CreateEntity(const std::string& name);
+		Entity CreateEntityWithGUID(GUID& gUID, const std::string& name);
 
 		void DestroyEntity(Entity& entity);
 
@@ -32,7 +32,7 @@ namespace prime {
 		static Ref<Scene> Create();
 
 	private:
-		SceneState m_state;
+		SceneState m_state = SceneState::editor;
 		entt::registry m_registry;
 
 		friend class Entity;

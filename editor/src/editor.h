@@ -13,5 +13,8 @@ namespace prime {
 		void Shutdown() override;
 
 		void Update(Timestep& timestep) override;
+
+	private:
+		Ref<Scene> m_scene;
 	};
 }
