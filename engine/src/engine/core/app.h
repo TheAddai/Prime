@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/renderer/renderer.h"
+#include "timestep.h"
 
 #include <string>
 
@@ -9,7 +10,7 @@ namespace prime {
 	struct AppConfig
 	{
 		uint32_t width = 640, height = 480;
-		bool fullscreen = false;
+		bool maximize = false, vSync = true;
 		std::string title = "Prime Application";
 		GraphicsAPI graphicsAPI = GraphicsAPI::graphicsAPIOpenGL;
 	};
@@ -20,7 +21,7 @@ namespace prime {
 		virtual void Init() {}
 		virtual void Shutdown() {}
 
-		virtual void Update() {}
+		virtual void Update(Timestep& timestep) {}
 		virtual AppConfig GetConfig() { return AppConfig(); }
 	};
 

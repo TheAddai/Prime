@@ -94,24 +94,41 @@ namespace prime {
 		glfwSetErrorCallback(GLFWErrorCallback);
 
 		m_config = windowConfig;
-		if (m_config.fullscreen) { glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE); }
+		if (m_config.maximize) { glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE); }
 		GLFWwindow* window = glfwCreateWindow(m_config.width, m_config.height, m_config.title.c_str(), nullptr, nullptr);
 
 		glfwSetWindowUserPointer((GLFWwindow*)window, &m_config);
 		SetCallbacks((GLFWwindow*)window);
 		m_handle = window;
+
+		m_context = Context::Create();
+		m_context->Init(m_handle);
+		SetVSync(m_config.vSync);
 	}
 
 	void Window::Shutdown()
 	{
+		m_context->Shutdown();
 		glfwDestroyWindow((GLFWwindow*)m_handle);
 		glfwSetErrorCallback(NULL);
 		glfwTerminate();
 	}
 
-	void Window::Update()
+	void Window::PollEvents()
 	{
 		glfwPollEvents();
+	}
+	
+	void Window::SwapBuffers()
+	{
+		m_context->SwapBuffers();
+	}
+	
+	void Window::SetVSync(bool enable)
+	{
+		if (enable) { glfwSwapInterval(1); }
+		else { glfwSwapInterval(0); }
+		m_config.vSync = enable;
 	}
 }
 

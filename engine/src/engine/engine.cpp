@@ -1,17 +1,15 @@
 
 #include "pch.h"
 #include "engine.h"
-#include "core/assert.h"
-#include "events/dispatcher.h"
-#include "events/window_events.h"
-#include "core/window.h"
+#include "events/all.h"
+#include "core/all.h"
 #include "renderer/all.h"
 
 namespace prime {
 
 	static bool s_running = false;
 	static Window s_window;
-	static std::unique_ptr<Context> s_context;
+	static Timestep s_timestep;
 
 	static void OnWindowClose(const WindowCloseEvent&)
 	{
@@ -33,33 +31,33 @@ namespace prime {
 		windowConfig.title = appConfig.title;
 		windowConfig.width = appConfig.width;
 		windowConfig.height = appConfig.height;
-		windowConfig.fullscreen = appConfig.fullscreen;
+		windowConfig.maximize = appConfig.maximize;
+		windowConfig.vSync = appConfig.vSync;
 		s_window.Init(windowConfig);
 
 		// context
 		Renderer::SetGraphicsAPI(appConfig.graphicsAPI);
-		s_context = Context::Create();
-		s_context->Init(s_window);
+		RenderCommand::Init();
 
 		app->Init();
 
 		// subscribe to events
 		Dispatcher::Get().sink<WindowCloseEvent>().connect<&OnWindowClose>();
-
 		s_running = true;
 
 		while (s_running)
 		{
-			Dispatcher::Get().update();
-			app->Update();
-			s_window.Update();
+			s_timestep.Tick();
+			s_window.PollEvents();
 
-			s_context->SwapBuffers();
+			Dispatcher::Get().update();
+			app->Update(s_timestep);
+			
+			s_window.SwapBuffers();
 		}
 
 		app->Shutdown();
 		Dispatcher::Get().clear();
-		s_context->Shutdown();
 		s_window.Shutdown();
 		Logger::Shutdown();
 	}

@@ -25,10 +25,19 @@ project "engine"
     {
         "%{includeDirs.spdlog}",
         "%{includeDirs.entt}",
-        "%{includeDirs.glfw}"
+        "%{includeDirs.glfw}",
+        "%{includeDirs.glad}",
+        "%{includeDirs.glm}"
     }
 
     links
     {
-        "glfw"
+        "glfw",
+        "glad"
     }
+
+    filter {"system:windows", "configurations:*"}
+        defines
+        {
+            "GLFW_INCLUDE_NONE"
+        }

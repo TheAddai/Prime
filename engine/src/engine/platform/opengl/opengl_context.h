@@ -9,12 +9,12 @@ namespace prime {
 	public:
 		OpenGLContext() = default;
 
-		void Init(Window& window);
+		void Init(void* windowHandle);
 		void Shutdown();
 
 		void SwapBuffers();
 
 	private:
-		WindowHandle m_windowHandle = nullptr;
+		void* m_windowHandle = nullptr;
 	};
 }

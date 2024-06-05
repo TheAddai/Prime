@@ -1,17 +1,16 @@
 #pragma once
 
 #include "core.h"
+#include "engine/renderer/context.h"
 
 #include <string>
 
 namespace prime {
 
-	using WindowHandle = void*;
-
 	struct WindowConfig
 	{
 		uint32_t width = 0, height = 0;
-		bool fullscreen = false;
+		bool maximize = false, vSync = true;
 		std::string title = "";
 	};
 
@@ -21,16 +20,21 @@ namespace prime {
 		void Init(const WindowConfig& windowConfig);
 		void Shutdown();
 
-		void Update();
+		void PollEvents();
+		void SwapBuffers();
 
 		PINLINE uint32_t GetWidth() { return m_config.width; }
 		PINLINE uint32_t GetHeight() { return m_config.height; }
 
-		PINLINE bool IsFullscreen() { return m_config.fullscreen; }
-		PINLINE WindowHandle GetHandle() { return m_handle; }
+		PINLINE bool IsMaximized() { return m_config.maximize; }
+		PINLINE void* GetHandle() { return m_handle; }
+
+		PINLINE bool IsVSync() { return m_config.vSync; }
+		void SetVSync(bool enable);
 
 	private:
-		WindowHandle m_handle = nullptr;
+		void* m_handle = nullptr;
 		WindowConfig m_config;
+		std::unique_ptr<Context> m_context;
 	};
 }

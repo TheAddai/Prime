@@ -22,7 +22,8 @@ project "editor"
     externalincludedirs
     {
         "%{includeDirs.spdlog}",
-        "%{includeDirs.entt}"
+        "%{includeDirs.entt}",
+        "%{includeDirs.glm}"
     }
 
     links

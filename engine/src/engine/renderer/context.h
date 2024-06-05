@@ -1,7 +1,5 @@
 #pragma once
 
-#include "engine/core/window.h"
-
 #include <memory>
 
 namespace prime {
@@ -9,7 +7,7 @@ namespace prime {
 	class Context 
 	{
 	public:
-		virtual void Init(Window& window) = 0;
+		virtual void Init(void* windowHandle) = 0;
 		virtual void Shutdown() = 0;
 
 		virtual void SwapBuffers() = 0;

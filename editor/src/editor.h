@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/engine.h"
+#include "engine/all.h"
 
 namespace prime {
 
@@ -12,6 +12,6 @@ namespace prime {
 		void Init() override;
 		void Shutdown() override;
 
-		void Update() override;
+		void Update(Timestep& timestep) override;
 	};
 }

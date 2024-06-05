@@ -5,7 +5,7 @@ namespace prime {
 
 	void Editor::Init()
 	{
-
+		RenderCommand::SetClearColor({ .2f, .2f, .2f, 1.0f });
 	}
 
 	void Editor::Shutdown()
@@ -13,8 +13,8 @@ namespace prime {
 
 	}
 
-	void Editor::Update()
+	void Editor::Update(Timestep& timestep)
 	{
-
+		RenderCommand::Clear();
 	}
 }

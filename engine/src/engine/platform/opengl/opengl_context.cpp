@@ -5,17 +5,20 @@
 
 #ifdef PPLATFORM_WINDOWS
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 #endif // PPLATFORM_WINDOWS
 
 namespace prime {
 
-	void OpenGLContext::Init(Window& window)
+	void OpenGLContext::Init(void* windowHandle)
 	{
-		PASSERT_MSG(window.GetHandle(), "Window is null");
-		m_windowHandle = window.GetHandle();
+		PASSERT_MSG(windowHandle, "Window is null");
+		m_windowHandle = windowHandle;
 
 #ifdef PPLATFORM_WINDOWS
 		glfwMakeContextCurrent((GLFWwindow*)m_windowHandle);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		PASSERT_MSG(status, "Failed to initialize Glad!");
 #endif // PPLATFORM_WINDOWS
 	}
 
