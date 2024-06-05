@@ -17,7 +17,7 @@
     {                                                                \
         if (expr) {                                                  \
         } else {                                                     \
-            PERROR("Assertion {0} failed in {1} at line {2}", P_STR(expr), P_FILE, P_LINE);                \
+            PERROR("Assertion {0} failed in {1} at line {2}", PSTR(expr), PFILE, PLINE);                \
             PBREAK;                                                \
         }                                                            \
     }
@@ -26,7 +26,7 @@
     {                                                                \
         if (expr) {                                                  \
         } else {                                                     \
-            PERROR("Assertion {0} failed in {1} at line {2} \n{3}", P_STR(expr), P_FILE, P_LINE, message);                \
+            PERROR("Assertion {0} failed in {1} at line {2} \n{3}", PSTR(expr), PFILE, PLINE, message);                \
             PBREAK;                                                \
         }                                                            \
     }

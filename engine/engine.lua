@@ -23,5 +23,6 @@ project "engine"
 
     externalincludedirs
     {
-        "%{includeDirs.spdlog}"
+        "%{includeDirs.spdlog}",
+        "%{includeDirs.entt}"
     }
