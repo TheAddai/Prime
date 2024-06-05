@@ -7,4 +7,5 @@
 #include "uniform_buffer.h"
 #include "render_command.h"
 #include "vertex.h"
+#include "vertex_array.h"
 #include "vertex_buffer.h"
