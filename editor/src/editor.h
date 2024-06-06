@@ -18,11 +18,14 @@ namespace prime {
 
 	private:
 		void SetColors();
+		void Dockspace();
+		void Viewport();
 
 	private:
 		Ref<Scene> m_scene;
 		std::unique_ptr<ImGuiAPI> m_imguiAPI;
 
 		Ref<Framebuffer> m_framebuffer;
+		glm::vec2 m_viewportSize = glm::vec2(0.0f);
 	};
 }

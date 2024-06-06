@@ -73,7 +73,7 @@ namespace prime {
 		bool multisample = m_config.samples > 1;
 
 		// textures
-		if (m_textures.size())
+		if (m_textureConfig.size())
 		{
 			m_textures.resize(m_textureConfig.size());
 			glGenTextures((uint32_t)m_textures.size(), m_textures.data());

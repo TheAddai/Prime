@@ -34,10 +34,22 @@ namespace prime {
 
 	void Scene::Render()
 	{
-		RenderCommand::Clear();
-
 		if (m_state == SceneState::editor)
 		{
+			RenderCommand::SetClearColor({ .2f, .2f, .2f, 1.0f });
+			RenderCommand::Clear();
+
+			DrawEntities();
+		}
+
+		else if (m_state == SceneState::runtime)
+		{
+			Entity cameraEntity = Entity(m_entities[m_mainCameraGUID], this);
+			glm::vec4 color = cameraEntity.GetComponent<CameraComponent>().clearColor;
+
+			RenderCommand::SetClearColor(color);
+			RenderCommand::Clear();
+
 			DrawEntities();
 		}
 	}
@@ -64,8 +76,6 @@ namespace prime {
 		if (entity.HasComponent<CameraComponent>())
 		{
 			m_mainCameraGUID = entity.GetComponent<IDComponent>().gUID.GetID();
-			glm::vec4 color = entity.GetComponent<CameraComponent>().clearColor;
-			RenderCommand::SetClearColor(color);
 		}
 	}
 
