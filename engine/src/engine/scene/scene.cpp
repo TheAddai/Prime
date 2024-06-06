@@ -80,11 +80,20 @@ namespace prime {
 
 			Renderer2D::Begin(viewProjectionMatrix);
 
+			// sprites
 			entt::basic_view sEs = m_registry.view<TransformComponent, SpriteComponent>();
 			for (entt::entity sE : sEs)
 			{
 				auto [sT, s] = sEs.get<TransformComponent, SpriteComponent>(sE);
 				Renderer2D::DrawSprite(sT, s);
+			}
+
+			// lines
+			entt::basic_view lEs = m_registry.view<TransformComponent, LineComponent>();
+			for (entt::entity lE : lEs)
+			{
+				auto [lT, l] = lEs.get<TransformComponent, LineComponent>(lE);
+				Renderer2D::DrawLine(lT, l);
 			}
 
 			Renderer2D::End();

@@ -18,10 +18,16 @@ namespace prime {
 			s_rendererAPI->Clear();
 		}
 		
-		static void Submit(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0)
+		static void Submit(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
 		{
 			vertexArray->Bind();
 			s_rendererAPI->Submit(vertexArray, indexCount);
+		}
+
+		static void SubmitLines(const Ref<VertexArray>& vertexArray, uint32_t vertexCount)
+		{
+			vertexArray->Bind();
+			s_rendererAPI->SubmitLines(vertexArray, vertexCount);
 		}
 
 		static void SetViewport(uint32_t width, uint32_t height)

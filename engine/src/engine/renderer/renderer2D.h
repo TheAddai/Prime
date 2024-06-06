@@ -1,12 +1,11 @@
 #pragma once
 
+#include "engine/scene/components.h"
+
 #include "texture.h"
 #include <glm/glm.hpp>
 
 namespace prime {
-
-	class TransformComponent;
-	class SpriteComponent;
 
 	class Renderer2D
 	{
@@ -15,6 +14,7 @@ namespace prime {
 		static void End();
 
 		static void DrawSprite(TransformComponent transform, SpriteComponent sprite);
+		static void DrawLine(TransformComponent transform, LineComponent line);
 
 	private:
 		static void Init();
@@ -22,6 +22,9 @@ namespace prime {
 
 		static void InitSpriteRendering();
 		static void ShutdownSpriteRendering();
+
+		static void InitLineRendering();
+		static void ShutdownLineRendering();
 
 		static void BeginRendering();
 		static float GetTextureIndex(Ref<Texture2D>& texture);

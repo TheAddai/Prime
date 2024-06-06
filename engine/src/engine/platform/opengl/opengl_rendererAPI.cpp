@@ -13,6 +13,9 @@ namespace prime {
 
 		glEnable(GL_DEPTH_TEST);
 		glDepthFunc(GL_LEQUAL);
+
+		glLineWidth(2.0f);
+		glEnable(GL_LINE_SMOOTH);
 	}
 
 	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
@@ -27,8 +30,12 @@ namespace prime {
 	
 	void OpenGLRendererAPI::Submit(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
 	{
-		uint32_t count = indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount();
-		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+	}
+
+	void OpenGLRendererAPI::SubmitLines(const Ref<VertexArray>& vertexArray, uint32_t vertexCount)
+	{
+		glDrawArrays(GL_LINES, 0, vertexCount);
 	}
 
 	void OpenGLRendererAPI::SetViewport(uint32_t width, uint32_t height)

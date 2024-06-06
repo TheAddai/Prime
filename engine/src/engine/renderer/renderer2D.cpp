@@ -18,6 +18,12 @@ namespace prime {
 		float textureIndex = 0.0f;
 	};
 
+	struct LineVertex
+	{
+		glm::vec3 position = glm::vec3(0.0f);
+		glm::vec4 color = glm::vec4(1.0f);
+	};
+
 	struct Data
 	{
 		uint32_t maxSprites = 20, maxSpritePerCall = 1000;
@@ -36,6 +42,13 @@ namespace prime {
 		Ref<Shader> spriteShader;
 		SpriteVertex* spriteVertexBase = nullptr;
 		SpriteVertex* spriteVertexPtr = nullptr;
+
+		// sprite
+		uint32_t lineVertexCount = 0;
+		Ref<VertexArray> lineVertexArray;
+		Ref<Shader> lineShader;
+		LineVertex* lineVertexBase = nullptr;
+		LineVertex* lineVertexPtr = nullptr;
 	};
 
 	Data m_data;
@@ -60,6 +73,15 @@ namespace prime {
 
 			m_data.spriteShader->Bind();
 			RenderCommand::Submit(m_data.spriteVertexArray, m_data.spriteIndexCount);
+		}
+
+		if (m_data.lineVertexCount)
+		{
+			int64_t lineDataSize = (uint8_t*)m_data.lineVertexPtr - (uint8_t*)m_data.lineVertexBase;
+			m_data.lineVertexArray->GetVertexBuffer()->SetData(m_data.lineVertexBase, (uint32_t)lineDataSize);
+
+			m_data.lineShader->Bind();
+			RenderCommand::SubmitLines(m_data.lineVertexArray, m_data.lineVertexCount);
 		}
 	}
 
@@ -92,6 +114,25 @@ namespace prime {
 		m_data.spriteIndexCount += 6;
 	}
 
+	void Renderer2D::DrawLine(TransformComponent transform, LineComponent line)
+	{
+		if (m_data.spriteIndexCount >= m_data.maxSpritePerCall * 6)
+		{
+			End();
+			BeginRendering();
+		}
+
+		m_data.lineVertexPtr->position = transform.position;
+		m_data.lineVertexPtr->color = line.color;
+		m_data.lineVertexPtr++;
+
+		m_data.lineVertexPtr->position = line.endPosition;
+		m_data.lineVertexPtr->color = line.color;;
+		m_data.lineVertexPtr++;
+
+		m_data.lineVertexCount += 2;
+	}
+
 	void Renderer2D::Init()
 	{
 		m_data.vertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
@@ -108,11 +149,13 @@ namespace prime {
 		m_data.textureSlots[0] = Texture2D::Create(TextureConfig());
 
 		InitSpriteRendering();
+		InitLineRendering();
 	}
 
 	void Renderer2D::Shutdown()
 	{
 		ShutdownSpriteRendering();
+		ShutdownLineRendering();
 	}
 
 	void Renderer2D::InitSpriteRendering()
@@ -167,11 +210,39 @@ namespace prime {
 	{
 		delete[] m_data.spriteVertexBase;
 	}
+
+	void Renderer2D::InitLineRendering()
+	{
+		uint32_t maxVertices = m_data.maxSprites * 4;
+		uint32_t maxIndices = m_data.maxSprites * 6;
+
+		VertexLayout lineLayout = {
+			{ VertexType::position, "a_position" },
+			{ VertexType::color, "a_color" }
+		};
+
+		m_data.lineVertexArray = VertexArray::Create();
+		Ref<VertexBuffer> lineVB = VertexBuffer::Create(maxVertices * sizeof(LineVertex));
+		lineVB->SetLayout(lineLayout);
+		m_data.lineVertexArray->SetVertexBuffer(lineVB);
+		m_data.lineVertexBase = new LineVertex[maxVertices];
+
+		m_data.lineShader = Filesystem::Loadshader("assets/shaders/line_vertex_shader.glsl",
+			"assets/shaders/line_pixel_shader.glsl");
+	}
+
+	void Renderer2D::ShutdownLineRendering()
+	{
+		delete[] m_data.lineVertexBase;
+	}
 	
 	void Renderer2D::BeginRendering()
 	{
 		m_data.spriteIndexCount = 0;
 		m_data.spriteVertexPtr = m_data.spriteVertexBase;
+
+		m_data.lineVertexCount = 0;
+		m_data.lineVertexPtr = m_data.lineVertexBase;
 
 		m_data.textureSlotIndex = 1;
 	}

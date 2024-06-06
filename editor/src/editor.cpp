@@ -12,6 +12,9 @@ namespace prime {
 		Entity player = m_scene->CreateEntity("Player");
 		player.AddComponent<SpriteComponent>().color = { 0.0f,1.0f,0.0f,1.0f };
 
+		Entity line = m_scene->CreateEntity("Line");
+		line.AddComponent<LineComponent>();
+
 		Entity mainCamera = m_scene->CreateEntity("MainCamera");
 		mainCamera.AddComponent<CameraComponent>();
 		m_scene->SetMainCamera(mainCamera);
