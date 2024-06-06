@@ -29,6 +29,7 @@ namespace prime {
 	
 	void Editor::OnWindowResize(const WindowResizeEvent& e)
 	{
+		m_scene->ViewportResize(e.GetWidth(), e.GetHeight());
 		RenderCommand::SetViewport(e.GetWidth(), e.GetHeight());
 	}
 }

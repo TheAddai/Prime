@@ -13,5 +13,6 @@ namespace prime {
 	public:
 		Camera camera;
 		glm::vec4 clearColor = { 0.1f, 0.1f, 0.8f, 1.0f };
+		bool fixedAspectRatio = false;
 	};
 }

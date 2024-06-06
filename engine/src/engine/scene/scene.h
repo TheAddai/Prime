@@ -7,6 +7,7 @@
 #include <entt/entt.hpp>
 #include <string>
 #include <map>
+#include <glm/glm.hpp>
 
 namespace prime {
 
@@ -30,6 +31,7 @@ namespace prime {
 
 		void Render();
 
+		void ViewportResize(uint32_t width, uint32_t height);
 		void SetMainCamera(Entity entity);
 
 		static Ref<Scene> Create();
@@ -43,6 +45,7 @@ namespace prime {
 
 		std::map< uint64_t, entt::entity> m_entities;
 		uint64_t m_mainCameraGUID = 0;
+		glm::u32vec2 m_viewport = glm::u32vec2(0);
 
 		friend class Entity;
 	};

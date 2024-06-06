@@ -42,6 +42,23 @@ namespace prime {
 		}
 	}
 
+	void Scene::ViewportResize(uint32_t width, uint32_t height)
+	{
+		if (m_viewport.x == width && m_viewport.y == height) { return; }
+		if (m_viewport.x < 0 && m_viewport.y < 0) { return; }
+
+		m_viewport.x = width;
+		m_viewport.y = height;
+
+		auto view = m_registry.view<CameraComponent>();
+		for (auto entity : view)
+		{
+			auto& cameraComponent = view.get<CameraComponent>(entity);
+			if (!cameraComponent.fixedAspectRatio)
+				cameraComponent.camera.SetViewport(width, height);
+		}
+	}
+
 	void Scene::SetMainCamera(Entity entity)
 	{
 		if (entity.HasComponent<CameraComponent>())
