@@ -28,6 +28,11 @@ namespace prime {
 		m_imguiAPI = ImGuiAPI::Create();
 		m_imguiAPI->Init();
 		SetColors();
+
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		float fontSize = 14.0f;
+		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto_bold.ttf", fontSize);
+		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/roboto_regular.ttf", fontSize);
 	}
 
 	void Editor::Shutdown()
