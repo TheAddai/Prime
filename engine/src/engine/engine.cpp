@@ -56,7 +56,6 @@ namespace prime {
 
 			Dispatcher::Get().update();
 			app->Update(s_timestep);
-			
 			s_window.SwapBuffers();
 		}
 

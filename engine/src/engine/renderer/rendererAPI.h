@@ -15,6 +15,7 @@ namespace prime {
 		virtual void Clear() = 0;
 
 		virtual void Submit(const Ref<VertexArray>& vertexArray, uint32_t indexCount) = 0;
+		virtual void SetViewport(uint32_t width, uint32_t height) = 0;
 
 		static std::unique_ptr<RendererAPI> Create();
 	};

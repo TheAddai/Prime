@@ -12,5 +12,6 @@ namespace prime {
 		void Clear();
 
 		void Submit(const Ref<VertexArray>& vertexArray, uint32_t indexCount) override;
+		void SetViewport(uint32_t width, uint32_t height) override;
 	};
 }

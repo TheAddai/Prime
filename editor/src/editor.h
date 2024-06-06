@@ -14,6 +14,8 @@ namespace prime {
 
 		void Update(Timestep& timestep) override;
 
+		void OnWindowResize(const WindowResizeEvent&);
+
 	private:
 		Ref<Scene> m_scene;
 	};

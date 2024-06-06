@@ -24,6 +24,11 @@ namespace prime {
 			s_rendererAPI->Submit(vertexArray, indexCount);
 		}
 
+		static void SetViewport(uint32_t width, uint32_t height)
+		{
+			if (width > 0 && height > 0) { s_rendererAPI->SetViewport(width, height); }
+		}
+
 	private:
 		static void Init()
 		{
