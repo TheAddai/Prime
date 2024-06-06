@@ -8,6 +8,7 @@
 #include "renderer2D.h"
 #include "rendererAPI.h"
 #include "shader.h"
+#include "texture.h"
 #include "uniform_buffer.h"
 #include "vertex.h"
 #include "vertex_array.h"

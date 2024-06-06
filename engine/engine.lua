@@ -27,7 +27,8 @@ project "engine"
         "%{includeDirs.entt}",
         "%{includeDirs.glfw}",
         "%{includeDirs.glad}",
-        "%{includeDirs.glm}"
+        "%{includeDirs.glm}",
+        "%{includeDirs.stb}"
     }
 
     links

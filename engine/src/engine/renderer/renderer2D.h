@@ -1,5 +1,6 @@
 #pragma once
 
+#include "texture.h"
 #include <glm/glm.hpp>
 
 namespace prime {
@@ -21,6 +22,9 @@ namespace prime {
 
 		static void InitSpriteRendering();
 		static void ShutdownSpriteRendering();
+
+		static void BeginRendering();
+		static float GetTextureIndex(Ref<Texture2D>& texture);
 
 	private:
 		friend class Engine;

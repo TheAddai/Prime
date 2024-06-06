@@ -6,7 +6,10 @@ namespace prime {
 
 	enum class VertexType
 	{
-		position
+		position,
+		color,
+		textureCoords,
+		textureIndex,
 	};
 
 	static uint32_t GetVertexTypeSize(VertexType vertexType)
@@ -14,6 +17,9 @@ namespace prime {
 		switch (vertexType)
 		{
 		case VertexType::position: return 12; break;
+		case VertexType::color: return 16; break;
+		case VertexType::textureCoords: return 8; break;
+		case VertexType::textureIndex: return 4; break;
 		}
 		return 0;
 	}
@@ -23,6 +29,9 @@ namespace prime {
 		switch (vertexType)
 		{
 		case VertexType::position: return 3; break;
+		case VertexType::color: return 4; break;
+		case VertexType::textureCoords: return 2; break;
+		case VertexType::textureIndex: return 1; break;
 		}
 		return 0;
 	}

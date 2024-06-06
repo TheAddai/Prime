@@ -11,7 +11,11 @@ namespace prime {
 	{
 		switch (vertexType)
 		{
-		case VertexType::position: return GL_FLOAT; break;
+		case VertexType::position: 
+		case VertexType::color: 
+		case VertexType::textureCoords: 
+		case VertexType::textureIndex: 
+			return GL_FLOAT; break;
 		}
 		return 0;
 	}

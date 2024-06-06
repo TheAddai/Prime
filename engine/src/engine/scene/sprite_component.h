@@ -1,5 +1,7 @@
 #pragma once
 
+#include "engine/renderer/texture.h"
+
 #include <glm/glm.hpp>
 
 namespace prime {
@@ -13,5 +15,6 @@ namespace prime {
 
 	public:
 		glm::vec4 color = glm::vec4(1.0f);
+		Ref<Texture2D> texture;
 	};
 }

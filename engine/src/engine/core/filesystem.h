@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/renderer/shader.h"
+#include "engine/renderer/texture.h"
 
 namespace prime {
 
@@ -8,7 +9,6 @@ namespace prime {
 	{
 	public:
 		static Ref<Shader> Loadshader(const std::string& vertexShaderSource, const std::string& pixelShaderSource);
-
-		static std::string LoadFile(std::string filepath);
+		static Ref<Texture2D> LoadTexture(const std::string& path);
 	};
 }

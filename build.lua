@@ -9,6 +9,7 @@ includeDirs["entt"] = "%{wks.location}/vendor/entt/include"
 includeDirs["glfw"] = "%{wks.location}/vendor/glfw/include"
 includeDirs["glad"] = "%{wks.location}/vendor/glad/include"
 includeDirs["glm"] = "%{wks.location}/vendor/glm/include"
+includeDirs["stb"] = "%{wks.location}/vendor/stb_image/include"
 
 workspace "prime"
     startproject "editor"
