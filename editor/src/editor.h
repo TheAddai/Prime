@@ -1,7 +1,8 @@
 #pragma once
 
 #include "engine/all.h"
-#include "imgui/imguiAPI.h"
+#include "imguiAPI/imguiAPI.h"
+#include "panels/scene_heirarchy.h"
 
 namespace prime {
 
@@ -27,5 +28,8 @@ namespace prime {
 
 		Ref<Framebuffer> m_framebuffer;
 		glm::vec2 m_viewportSize = glm::vec2(0.0f);
+
+		// panels
+		SceneHeirarchy m_sceneHeirarchy;
 	};
 }

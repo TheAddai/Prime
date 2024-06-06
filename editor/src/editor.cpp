@@ -40,6 +40,8 @@ namespace prime {
 		fbConfig.width = 1280;
 		fbConfig.height = 720;
 		m_framebuffer = Framebuffer::Create(fbConfig);
+
+		m_sceneHeirarchy.SetScene(m_scene);
 	}
 
 	void Editor::Shutdown()
@@ -51,13 +53,12 @@ namespace prime {
 	{
 		m_imguiAPI->BeginRender();
 		m_framebuffer->Bind();
-
 		m_scene->Render();
-
 		m_framebuffer->Unbind();
 
 		Dockspace();
 		Viewport();
+		m_sceneHeirarchy.ImGuiRender();
 
 		m_imguiAPI->EndRender();
 	}

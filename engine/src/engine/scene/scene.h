@@ -34,6 +34,12 @@ namespace prime {
 		void ViewportResize(uint32_t width, uint32_t height);
 		void SetMainCamera(Entity entity);
 
+		template<typename T>
+		auto GetEntities()
+		{
+			return m_registry.view<T>();
+		}
+
 		static Ref<Scene> Create();
 
 	private:
