@@ -133,6 +133,29 @@ namespace prime {
 		m_data.lineVertexCount += 2;
 	}
 
+	void Renderer2D::DrawRect(TransformComponent transform, RectComponent rect)
+	{
+		if (m_data.spriteIndexCount >= m_data.maxSpritePerCall * 6)
+		{
+			End();
+			BeginRendering();
+		}
+
+		glm::mat4 matrix = GetTransform(transform);
+		glm::vec3 rectVertices[4]{};
+		for (size_t i = 0; i < 4; i++)
+			rectVertices[i] = matrix * m_data.vertexPositions[i];
+
+		static uint32_t index[8] = { 0, 1, 1, 2, 2, 3, 3, 0 };
+		for (size_t x = 0; x < 8; x++)
+		{
+			m_data.lineVertexPtr->position = rectVertices[index[x]];
+			m_data.lineVertexPtr->color = rect.color;
+			m_data.lineVertexPtr++;
+		}
+		m_data.lineVertexCount += 8;
+	}
+
 	void Renderer2D::Init()
 	{
 		m_data.vertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };

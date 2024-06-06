@@ -15,6 +15,7 @@ namespace prime {
 
 		static void DrawSprite(TransformComponent transform, SpriteComponent sprite);
 		static void DrawLine(TransformComponent transform, LineComponent line);
+		static void DrawRect(TransformComponent transform, RectComponent rect);
 
 	private:
 		static void Init();

@@ -96,6 +96,14 @@ namespace prime {
 				Renderer2D::DrawLine(lT, l);
 			}
 
+			// rects
+			entt::basic_view rEs = m_registry.view<TransformComponent, RectComponent>();
+			for (entt::entity rE : rEs)
+			{
+				auto [rT, r] = rEs.get<TransformComponent, RectComponent>(rE);
+				Renderer2D::DrawRect(rT, r);
+			}
+
 			Renderer2D::End();
 		}
 	}

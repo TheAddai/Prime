@@ -15,6 +15,9 @@ namespace prime {
 		Entity line = m_scene->CreateEntity("Line");
 		line.AddComponent<LineComponent>();
 
+		Entity rect = m_scene->CreateEntity("Rect");
+		rect.AddComponent<RectComponent>();
+
 		Entity mainCamera = m_scene->CreateEntity("MainCamera");
 		mainCamera.AddComponent<CameraComponent>();
 		m_scene->SetMainCamera(mainCamera);
