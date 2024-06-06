@@ -7,6 +7,7 @@
 #include "filesystem.h"
 #include "engine.h"
 #include "GUID.h"
+#include "input.h"
 #include "keys.h"
 #include "logger.h"
 #include "ref.h"

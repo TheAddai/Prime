@@ -21,6 +21,11 @@ namespace prime {
 		s_running = false;
 	}
 
+	Window& Engine::GetWindow()
+	{
+		return s_window;
+	}
+
 	void Engine::Run(App* app)
 	{
 		Logger::Init();
