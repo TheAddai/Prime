@@ -33,6 +33,13 @@ namespace prime {
 		float fontSize = 14.0f;
 		io.Fonts->AddFontFromFileTTF("assets/fonts/roboto_bold.ttf", fontSize);
 		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/roboto_regular.ttf", fontSize);
+
+		// framebuffer
+		FramebufferConfig fbConfig;
+		fbConfig.attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::depth };
+		fbConfig.width = 1280;
+		fbConfig.height = 720;
+		m_framebuffer = Framebuffer::Create(fbConfig);
 	}
 
 	void Editor::Shutdown()
@@ -42,11 +49,12 @@ namespace prime {
 
 	void Editor::Update(Timestep& timestep)
 	{
+		m_imguiAPI->BeginRender();
+		m_framebuffer->Bind();
+
 		m_scene->Render();
 
-		m_imguiAPI->BeginRender();
-		bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		m_framebuffer->Unbind();
 		m_imguiAPI->EndRender();
 	}
 	

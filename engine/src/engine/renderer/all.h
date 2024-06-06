@@ -2,6 +2,7 @@
 
 #include "camera.h"
 #include "context.h"
+#include "frame_buffer.h"
 #include "index_buffer.h"
 #include "render_command.h"
 #include "renderer.h"

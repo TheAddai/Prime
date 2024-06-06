@@ -22,5 +22,7 @@ namespace prime {
 	private:
 		Ref<Scene> m_scene;
 		std::unique_ptr<ImGuiAPI> m_imguiAPI;
+
+		Ref<Framebuffer> m_framebuffer;
 	};
 }
