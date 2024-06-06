@@ -16,17 +16,21 @@ project "editor"
     includedirs 
     {
         "src",
-        "%{includeDirs.engine}"
+        "%{includeDirs.engine}",
     }
 
     externalincludedirs
     {
         "%{includeDirs.spdlog}",
         "%{includeDirs.entt}",
-        "%{includeDirs.glm}"
+        "%{includeDirs.glm}",
+        "%{includeDirs.imgui}",
+        "%{includeDirs.glfw}",
+        "%{includeDirs.glad}"
     }
 
     links
     {
-        "engine"
+        "engine",
+        "imgui"
     }

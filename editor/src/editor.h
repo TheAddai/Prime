@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/all.h"
+#include "imgui/imguiAPI.h"
 
 namespace prime {
 
@@ -13,10 +14,13 @@ namespace prime {
 		void Shutdown() override;
 
 		void Update(Timestep& timestep) override;
-
 		void OnWindowResize(const WindowResizeEvent&);
 
 	private:
+		void SetColors();
+
+	private:
 		Ref<Scene> m_scene;
+		std::unique_ptr<ImGuiAPI> m_imguiAPI;
 	};
 }
