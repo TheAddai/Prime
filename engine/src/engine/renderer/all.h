@@ -1,5 +1,6 @@
 #pragma once
 
+#include "camera.h"
 #include "context.h"
 #include "index_buffer.h"
 #include "render_command.h"
