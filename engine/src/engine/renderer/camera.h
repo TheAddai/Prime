@@ -19,6 +19,7 @@ namespace prime {
 		void SetOrthographic(float size, float nearClip, float farClip);
 
 		void SetViewport(uint32_t width, uint32_t height);
+		glm::mat4 GetProjection() { return m_projection; }
 
 		float GetPerspectiveFOV() const { return m_perspectiveFOV; }
 		void SetPerspectiveFOV(float FOV);
@@ -53,7 +54,7 @@ namespace prime {
 		float m_orthographicSize = 10.0f;
 		float m_orthographicNear = -1.0f, m_orthographicFar = 1.0f;
 
-		float m_aspectRatio = 0.0f;
+		float m_aspectRatio = 1.7666f;
 
 		glm::mat4 m_projection = glm::mat4(1.0f);
 	};

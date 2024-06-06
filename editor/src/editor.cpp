@@ -11,6 +11,10 @@ namespace prime {
 		m_scene = Scene::Create();
 		Entity player = m_scene->CreateEntity("Player");
 		player.AddComponent<SpriteComponent>();
+
+		Entity mainCamera = m_scene->CreateEntity("MainCamera");
+		mainCamera.AddComponent<CameraComponent>();
+		m_scene->SetMainCamera(mainCamera);
 	}
 
 	void Editor::Shutdown()
@@ -20,9 +24,6 @@ namespace prime {
 
 	void Editor::Update(Timestep& timestep)
 	{
-		RenderCommand::Clear();
-
-		m_scene->SetState(SceneState::editor);
 		m_scene->Render();
 	}
 	

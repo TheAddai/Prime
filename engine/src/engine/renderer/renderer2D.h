@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 namespace prime {
 
 	class TransformComponent;
@@ -8,7 +10,7 @@ namespace prime {
 	class Renderer2D
 	{
 	public:
-		static void Begin();
+		static void Begin(const glm::mat4 viewProjectionMatrix);
 		static void End();
 
 		static void DrawSprite(TransformComponent transform, SpriteComponent sprite);

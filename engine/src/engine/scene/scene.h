@@ -6,6 +6,7 @@
 
 #include <entt/entt.hpp>
 #include <string>
+#include <map>
 
 namespace prime {
 
@@ -29,6 +30,8 @@ namespace prime {
 
 		void Render();
 
+		void SetMainCamera(Entity entity);
+
 		static Ref<Scene> Create();
 
 	private:
@@ -37,6 +40,9 @@ namespace prime {
 	private:
 		SceneState m_state = SceneState::editor;
 		entt::registry m_registry;
+
+		std::map< uint64_t, entt::entity> m_entities;
+		uint64_t m_mainCameraGUID = 0;
 
 		friend class Entity;
 	};

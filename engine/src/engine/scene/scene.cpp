@@ -4,6 +4,8 @@
 #include "entity.h"
 #include "components.h"
 #include "engine/renderer/renderer2D.h"
+#include "engine/utils/math.h"
+#include "engine/renderer/render_command.h"
 
 namespace prime {
 
@@ -19,37 +21,61 @@ namespace prime {
 		entity.AddComponent<TransformComponent>();
 		auto& nameC = entity.AddComponent<EditorNameComponent>();
 		nameC.name = name.empty() ? "Entity" : name;
+
+		m_entities[gUID.GetID()] = entity.GetID();
 		return entity;
 	}
 
 	void Scene::DestroyEntity(Entity& entity)
 	{
+		m_entities.erase(entity.GetComponent<IDComponent>().gUID.GetID());
 		m_registry.destroy(entity.GetID());
 	}
 
 	void Scene::Render()
 	{
+		RenderCommand::Clear();
+
 		if (m_state == SceneState::editor)
 		{
-			Renderer2D::Begin();
 			DrawEntities();
-			Renderer2D::End();
+		}
+	}
+
+	void Scene::SetMainCamera(Entity entity)
+	{
+		if (entity.HasComponent<CameraComponent>())
+		{
+			m_mainCameraGUID = entity.GetComponent<IDComponent>().gUID.GetID();
+			glm::vec4 color = entity.GetComponent<CameraComponent>().clearColor;
+			RenderCommand::SetClearColor(color);
 		}
 	}
 
 	void Scene::DrawEntities()
 	{
-		entt::basic_view sEs = m_registry.view<TransformComponent, SpriteComponent>();
-		for (entt::entity sE : sEs)
+		Entity cameraEntity = Entity(m_entities[m_mainCameraGUID], this);
+		if (cameraEntity)
 		{
-			auto [sT, s] = sEs.get<TransformComponent, SpriteComponent>(sE);
-			Renderer2D::DrawSprite(sT, s);
+			Camera& camera = cameraEntity.GetComponent<CameraComponent>().camera;
+			glm::mat4 transform = GetTransformNoScale(cameraEntity.GetComponent<TransformComponent>());
+			glm::mat4 viewProjectionMatrix = camera.GetProjection() * glm::inverse(transform);
+
+			Renderer2D::Begin(viewProjectionMatrix);
+
+			entt::basic_view sEs = m_registry.view<TransformComponent, SpriteComponent>();
+			for (entt::entity sE : sEs)
+			{
+				auto [sT, s] = sEs.get<TransformComponent, SpriteComponent>(sE);
+				Renderer2D::DrawSprite(sT, s);
+			}
+
+			Renderer2D::End();
 		}
 	}
 
 	Ref<Scene> Scene::Create()
 	{
 		return CreateRef<Scene>();
-	}
-	
+	}	
 }

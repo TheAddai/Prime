@@ -17,4 +17,12 @@ namespace prime {
 			* rot
 			* glm::scale(glm::mat4(1.0f), transform.scale);
 	}
+
+	glm::mat4 GetTransformNoScale(TransformComponent transform)
+	{
+		glm::mat4 rot = glm::toMat4(glm::quat(transform.rotation));
+
+		return glm::translate(glm::mat4(1.0f), transform.position)
+			* rot;
+	}
 }

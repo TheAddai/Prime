@@ -6,6 +6,7 @@
 #include "engine/core/filesystem.h"
 #include "engine/utils/math.h"
 #include "engine/scene/components.h"
+#include "uniform_buffer.h"
 
 namespace prime {
 
@@ -18,6 +19,7 @@ namespace prime {
 	{
 		uint32_t maxSprites = 20;
 		glm::vec4 vertexPositions[4]{};
+		Ref<UniformBuffer> cameraUniformBuffer;
 
 		// sprite
 		uint32_t spriteIndexCount = 0;
@@ -29,8 +31,10 @@ namespace prime {
 
 	Data m_data;
 
-	void Renderer2D::Begin()
+	void Renderer2D::Begin(const glm::mat4 viewProjectionMatrix)
 	{
+		m_data.cameraUniformBuffer->SetData(&viewProjectionMatrix, sizeof(glm::mat4));
+
 		m_data.spriteIndexCount = 0;
 		m_data.spriteVertexPtr = m_data.spriteVertexBase;
 	}
@@ -64,6 +68,8 @@ namespace prime {
 		m_data.vertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
 		m_data.vertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
 		m_data.vertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+
+		m_data.cameraUniformBuffer = UniformBuffer::Create(sizeof(glm::mat4), 0);
 
 		InitSpriteRendering();
 	}
