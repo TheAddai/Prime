@@ -18,11 +18,13 @@ namespace prime {
 	};
 
 	class Entity;
+	class Project;
 	class Scene
 	{
 	public:
 		Scene() = default;
-		Scene(const std::string& name) : m_name(name) {}
+		Scene(Project* project, const std::string& name)
+			: m_project(project), m_name(name) { }
 
 		Entity CreateEntity(const std::string& name);
 		Entity CreateEntityWithGUID(GUID& gUID, const std::string& name);
@@ -47,8 +49,8 @@ namespace prime {
 
 		std::string GetName() const { return m_name; }
 
-		static Ref<Scene> Create(const std::string& name);
-		static Ref<Scene> Create();
+		static Ref<Scene> Create(Project*, const std::string& name);
+		static Ref<Scene> Create(Project* project);
 
 	private:
 		void DrawEntities();
@@ -62,6 +64,8 @@ namespace prime {
 		std::map<uint64_t, entt::entity> m_entities;
 		uint64_t m_mainCameraGUID = 0;
 		glm::u32vec2 m_viewport = glm::u32vec2(0);
+
+		Project* m_project = nullptr;
 
 		friend class Entity;
 	};

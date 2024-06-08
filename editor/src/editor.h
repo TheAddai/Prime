@@ -38,7 +38,6 @@ namespace prime {
 		void MenuBar();
 
 	private:
-		Ref<Scene> m_scene;
 		std::unique_ptr<ImGuiAPI> m_imguiAPI;
 
 		Ref<Framebuffer> m_framebuffer;
@@ -46,6 +45,8 @@ namespace prime {
 
 		bool m_viewportFocused = false, m_viewportHovered = false;
 		glm::vec2 m_viewportBounds[2]{};
+
+		Ref<Project> m_project;
 
 		// panels
 		SceneHeirarchy m_sceneHeirarchy;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/renderer/texture.h"
+#include "engine/scene/project.h"
 
 #include <filesystem>
 
@@ -11,7 +12,7 @@ namespace prime {
 	public:
 		ContentBrowser() = default;
 
-		void Init();
+		void Init(Ref<Project>& project);
 		void ImGuiRender();
 
 	private:
@@ -20,5 +21,7 @@ namespace prime {
 
 		Ref<Texture2D> m_fileIcon;
 		Ref<Texture2D> m_folderIcon;
+
+		Ref<Project> m_project;
 	};
 }

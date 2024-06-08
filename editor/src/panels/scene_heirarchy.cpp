@@ -17,7 +17,7 @@ namespace prime {
 	{
 		ImGui::Begin("Scene Hierarchy");
 
-		if (m_scene)
+		if (m_scene.get())
 		{
 			// create entities
 			m_entities.clear();

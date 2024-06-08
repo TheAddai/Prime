@@ -6,6 +6,7 @@
 #include "engine/renderer/renderer2D.h"
 #include "engine/utils/math.h"
 #include "engine/renderer/render_command.h"
+#include "project.h"
 
 namespace prime {
 
@@ -130,13 +131,13 @@ namespace prime {
 		}
 	}
 
-	Ref<Scene> Scene::Create(const std::string& name)
+	Ref<Scene> Scene::Create(Project* project, const std::string& name)
 	{
-		return CreateRef<Scene>(name);
-	}	
+		return CreateRef<Scene>(project, name);
+	}
 
-	Ref<Scene> Scene::Create()
+	Ref<Scene> Scene::Create(Project* project)
 	{
-		return CreateRef<Scene>("Untitled");
+		return Scene::Create(project, "Untitled");
 	}
 }

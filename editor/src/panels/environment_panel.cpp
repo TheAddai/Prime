@@ -17,20 +17,23 @@ namespace prime {
 	{
 		ImGui::Begin("Environment");
 
-		std::string sceneName = "Scene: " + m_scene->GetName();
-		std::string cameraName = "Scene Camera: ";
-		Entity mainCamera = m_scene->GetMainCamera();
-		if (mainCamera)
+		if (m_scene.get())
 		{
-			cameraName += mainCamera.GetComponent<EditorNameComponent>().name;
-		}
-		else 
-		{
-			cameraName += "None";
-		}
+			std::string sceneName = "Scene: " + m_scene->GetName();
+			std::string cameraName = "Scene Camera: ";
+			Entity mainCamera = m_scene->GetMainCamera();
+			if (mainCamera)
+			{
+				cameraName += mainCamera.GetComponent<EditorNameComponent>().name;
+			}
+			else
+			{
+				cameraName += "None";
+			}
 
-		ImGui::Text("%s", sceneName.c_str());
-		ImGui::Text("%s", cameraName.c_str());
+			ImGui::Text("%s", sceneName.c_str());
+			ImGui::Text("%s", cameraName.c_str());
+		}
 
 		ImGui::End();
 	}

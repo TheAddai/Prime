@@ -8,7 +8,6 @@ namespace prime {
 	void Editor::Init()
 	{
 		Dispatcher::Get().sink<WindowResizeEvent>().connect<&Editor::OnWindowResize>(this);
-		m_scene = Scene::Create();
 
 		// imgui
 		m_imguiAPI = ImGuiAPI::Create();
@@ -26,10 +25,6 @@ namespace prime {
 		fbConfig.width = 1280;
 		fbConfig.height = 720;
 		m_framebuffer = Framebuffer::Create(fbConfig);
-
-		m_sceneHeirarchy.SetScene(m_scene);
-		m_environmentPanel.SetScene(m_scene);
-		m_contentBrowser.Init();
 	}
 
 	void Editor::Shutdown()
@@ -41,9 +36,12 @@ namespace prime {
 	{
 		ResizeViewport();
 
-		m_framebuffer->Bind();
-		m_scene->Render();
-		m_framebuffer->Unbind();
+		if (m_project.get())
+		{
+			m_framebuffer->Bind();
+			m_project->GetActiveScene()->Render();
+			m_framebuffer->Unbind();
+		}	
 
 		m_imguiAPI->BeginRender();
 		Dockspace();
@@ -58,7 +56,6 @@ namespace prime {
 	
 	void Editor::OnWindowResize(const WindowResizeEvent& e)
 	{
-		m_scene->ViewportResize(e.GetWidth(), e.GetHeight());
 		RenderCommand::SetViewport(e.GetWidth(), e.GetHeight());
 	}
 
@@ -173,7 +170,10 @@ namespace prime {
 
 	void Editor::ResizeViewport()
 	{
-		m_scene->ViewportResize((uint32_t)m_viewportSize.x, (uint32_t)m_viewportSize.y);
+		if (m_project.get())
+		{
+			m_project->GetActiveScene()->ViewportResize((uint32_t)m_viewportSize.x, (uint32_t)m_viewportSize.y);
+		}
 
 		glm::vec2 size = glm::vec2(0.0f);
 		size.x = (float)m_framebuffer->GetWidth();
