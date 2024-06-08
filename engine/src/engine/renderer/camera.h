@@ -6,8 +6,8 @@ namespace prime {
 
 	enum class ProjectionType
 	{ 
-		Perspective = 0,
-		Orthographic = 1 
+		perspective = 0,
+		orthographic = 1 
 	};
 
 	class Camera
@@ -30,14 +30,14 @@ namespace prime {
 		float GetPerspectiveFar() const { return m_perspectiveFarClip; }
 		void SetPerspectiveFar(float farClip);
 
-		float GetOrthoSize() const { return m_orthographicSize; }
-		void SetOrthoSize(float size);
+		float GetOrthographicSize() const { return m_orthographicSize; }
+		void SetOrthographicSize(float size);
 
-		float GetOrthoNearClip() const { return m_orthographicNear; }
-		void SetOrthoNearClip(float nearClip);
+		float GetOrthographicNear() const { return m_orthographicNear; }
+		void SetOrthographicNear(float nearClip);
 
-		float GetOrthoFarClip() const { return m_orthographicFar; }
-		void SetOrthoFarClip(float farClip);
+		float GetOrthographicFar() const { return m_orthographicFar; }
+		void SetOrthographicFar(float farClip);
 
 		ProjectionType GetProjectionType() const { return m_projectionType; }
 		void SetProjectionType(ProjectionType type);
@@ -46,7 +46,7 @@ namespace prime {
 		void CalculateProjection();
 
 	private:
-		ProjectionType m_projectionType = ProjectionType::Orthographic;
+		ProjectionType m_projectionType = ProjectionType::orthographic;
 
 		float m_perspectiveFOV = glm::radians(45.0f);
 		float m_perspectiveNearClip = 0.01f, m_perspectiveFarClip = 1000.0f;

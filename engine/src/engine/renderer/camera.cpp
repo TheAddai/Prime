@@ -14,7 +14,7 @@ namespace prime {
 
 	void Camera::SetPerspective(float FOV, float nearClip, float farClip)
 	{
-		m_projectionType = ProjectionType::Perspective;
+		m_projectionType = ProjectionType::perspective;
 		m_perspectiveFOV = FOV;
 		m_perspectiveNearClip = nearClip;
 		m_perspectiveFarClip = farClip;
@@ -23,7 +23,7 @@ namespace prime {
 
 	void Camera::SetOrthographic(float size, float nearClip, float farClip)
 	{
-		m_projectionType = ProjectionType::Orthographic;
+		m_projectionType = ProjectionType::orthographic;
 		m_orthographicSize = size;
 		m_orthographicNear = nearClip;
 		m_orthographicFar = farClip;
@@ -55,19 +55,19 @@ namespace prime {
 		CalculateProjection();
 	}
 
-	void Camera::SetOrthoSize(float size)
+	void Camera::SetOrthographicSize(float size)
 	{
 		m_orthographicSize = size;
 		CalculateProjection();
 	}
 
-	void Camera::SetOrthoNearClip(float nearClip)
+	void Camera::SetOrthographicNear(float nearClip)
 	{
 		m_orthographicNear = nearClip;
 		CalculateProjection();
 	}
 
-	void Camera::SetOrthoFarClip(float farClip)
+	void Camera::SetOrthographicFar(float farClip)
 	{
 		m_orthographicFar = farClip;
 		CalculateProjection();
@@ -81,7 +81,7 @@ namespace prime {
 	
 	void Camera::CalculateProjection()
 	{
-		if (m_projectionType == ProjectionType::Perspective)
+		if (m_projectionType == ProjectionType::perspective)
 		{
 			m_projection = glm::perspective(m_perspectiveFOV, m_aspectRatio,
 				m_perspectiveNearClip, m_perspectiveFarClip);

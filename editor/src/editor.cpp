@@ -7,22 +7,8 @@ namespace prime {
 
 	void Editor::Init()
 	{
-		RenderCommand::SetClearColor({ .2f, .2f, .2f, 1.0f });
 		Dispatcher::Get().sink<WindowResizeEvent>().connect<&Editor::OnWindowResize>(this);
-
 		m_scene = Scene::Create();
-		Entity player = m_scene->CreateEntity("Player");
-		player.AddComponent<SpriteComponent>().color = { 0.0f,1.0f,0.0f,1.0f };
-
-		Entity line = m_scene->CreateEntity("Line");
-		line.AddComponent<LineComponent>();
-
-		Entity rect = m_scene->CreateEntity("Rect");
-		rect.AddComponent<RectComponent>();
-
-		Entity mainCamera = m_scene->CreateEntity("MainCamera");
-		mainCamera.AddComponent<CameraComponent>();
-		m_scene->SetMainCamera(mainCamera);
 
 		// imgui
 		m_imguiAPI = ImGuiAPI::Create();
@@ -51,14 +37,14 @@ namespace prime {
 
 	void Editor::Update(Timestep& timestep)
 	{
-		m_imguiAPI->BeginRender();
 		m_framebuffer->Bind();
 		m_scene->Render();
 		m_framebuffer->Unbind();
 
+		m_imguiAPI->BeginRender();
 		Dockspace();
-		Viewport();
 		m_sceneHeirarchy.ImGuiRender();
+		Viewport();
 		m_properties.ImGuiRender(m_sceneHeirarchy.GetSelectedEntity());
 
 		m_imguiAPI->EndRender();

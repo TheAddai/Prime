@@ -20,7 +20,8 @@ namespace prime {
 		entity.AddComponent<IDComponent>(gUID);
 		entity.AddComponent<TransformComponent>();
 		auto& nameC = entity.AddComponent<EditorNameComponent>();
-		nameC.name = name.empty() ? "Entity" : name;
+		nameC.name = name.empty() ? "Entity" + std::to_string(m_index) : name;
+		m_index++;
 
 		m_entities[gUID.GetID()] = entity.GetID();
 		return entity;
@@ -81,9 +82,10 @@ namespace prime {
 
 	void Scene::DrawEntities()
 	{
-		Entity cameraEntity = Entity(m_entities[m_mainCameraGUID], this);
-		if (cameraEntity)
+		if (m_mainCameraGUID)
 		{
+			Entity cameraEntity = Entity(m_entities[m_mainCameraGUID], this);
+
 			Camera& camera = cameraEntity.GetComponent<CameraComponent>().camera;
 			glm::mat4 transform = GetTransformNoScale(cameraEntity.GetComponent<TransformComponent>());
 			glm::mat4 viewProjectionMatrix = camera.GetProjection() * glm::inverse(transform);
@@ -91,27 +93,27 @@ namespace prime {
 			Renderer2D::Begin(viewProjectionMatrix);
 
 			// sprites
-			entt::basic_view sEs = m_registry.view<TransformComponent, SpriteComponent>();
-			for (entt::entity sE : sEs)
+			entt::basic_view s2dEs = m_registry.view<TransformComponent, SpriteRenderer2DComponent>();
+			for (entt::entity s2dE : s2dEs)
 			{
-				auto [sT, s] = sEs.get<TransformComponent, SpriteComponent>(sE);
-				Renderer2D::DrawSprite(sT, s);
+				auto [s2dT, s2d] = s2dEs.get<TransformComponent, SpriteRenderer2DComponent>(s2dE);
+				Renderer2D::DrawSprite(s2dT, s2d);
 			}
 
 			// lines
-			entt::basic_view lEs = m_registry.view<TransformComponent, LineComponent>();
-			for (entt::entity lE : lEs)
+			entt::basic_view l2dEs = m_registry.view<TransformComponent, Line2DComponent>();
+			for (entt::entity lE : l2dEs)
 			{
-				auto [lT, l] = lEs.get<TransformComponent, LineComponent>(lE);
-				Renderer2D::DrawLine(lT, l);
+				auto [l2dT, l2d] = l2dEs.get<TransformComponent, Line2DComponent>(lE);
+				Renderer2D::DrawLine(l2dT, l2d);
 			}
 
 			// rects
-			entt::basic_view rEs = m_registry.view<TransformComponent, RectComponent>();
-			for (entt::entity rE : rEs)
+			entt::basic_view r2dEs = m_registry.view<TransformComponent, Rect2DComponent>();
+			for (entt::entity rE : r2dEs)
 			{
-				auto [rT, r] = rEs.get<TransformComponent, RectComponent>(rE);
-				Renderer2D::DrawRect(rT, r);
+				auto [r2dT, r2d] = r2dEs.get<TransformComponent, Rect2DComponent>(rE);
+				Renderer2D::DrawRect(r2dT, r2d);
 			}
 
 			Renderer2D::End();

@@ -12,6 +12,9 @@ namespace prime {
 
 	private:
 		void DrawNameComponent();
+		void DrawAddComponentButton();
+
+		void DrawComponents(Entity entity);
 
 	private:
 		Entity m_selection;

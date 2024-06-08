@@ -49,7 +49,8 @@ namespace prime {
 		SceneState m_state = SceneState::editor;
 		entt::registry m_registry;
 
-		std::map< uint64_t, entt::entity> m_entities;
+		uint32_t m_index = 0;
+		std::map<uint64_t, entt::entity> m_entities;
 		uint64_t m_mainCameraGUID = 0;
 		glm::u32vec2 m_viewport = glm::u32vec2(0);
 

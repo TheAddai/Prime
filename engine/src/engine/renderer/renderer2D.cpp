@@ -85,7 +85,7 @@ namespace prime {
 		}
 	}
 
-	void Renderer2D::DrawSprite(TransformComponent transform, SpriteComponent sprite)
+	void Renderer2D::DrawSprite(TransformComponent transform, SpriteRenderer2DComponent sprite)
 	{
 		if (m_data.spriteIndexCount >= m_data.maxSpritePerCall * 6)
 		{
@@ -114,7 +114,7 @@ namespace prime {
 		m_data.spriteIndexCount += 6;
 	}
 
-	void Renderer2D::DrawLine(TransformComponent transform, LineComponent line)
+	void Renderer2D::DrawLine(TransformComponent transform, Line2DComponent line)
 	{
 		if (m_data.spriteIndexCount >= m_data.maxSpritePerCall * 6)
 		{
@@ -122,18 +122,18 @@ namespace prime {
 			BeginRendering();
 		}
 
-		m_data.lineVertexPtr->position = transform.position;
+		m_data.lineVertexPtr->position = { transform.position.x, transform.position.y, 0.0f };
 		m_data.lineVertexPtr->color = line.color;
 		m_data.lineVertexPtr++;
 
-		m_data.lineVertexPtr->position = line.endPosition;
-		m_data.lineVertexPtr->color = line.color;;
+		m_data.lineVertexPtr->position = { line.endPosition.x, line.endPosition.y, 0.0f };
+		m_data.lineVertexPtr->color = line.color;
 		m_data.lineVertexPtr++;
 
 		m_data.lineVertexCount += 2;
 	}
 
-	void Renderer2D::DrawRect(TransformComponent transform, RectComponent rect)
+	void Renderer2D::DrawRect(TransformComponent transform, Rect2DComponent rect)
 	{
 		if (m_data.spriteIndexCount >= m_data.maxSpritePerCall * 6)
 		{
@@ -142,14 +142,14 @@ namespace prime {
 		}
 
 		glm::mat4 matrix = GetTransform(transform);
-		glm::vec3 rectVertices[4]{};
+		glm::vec2 rectVertices[4]{};
 		for (size_t i = 0; i < 4; i++)
 			rectVertices[i] = matrix * m_data.vertexPositions[i];
 
 		static uint32_t index[8] = { 0, 1, 1, 2, 2, 3, 3, 0 };
 		for (size_t x = 0; x < 8; x++)
 		{
-			m_data.lineVertexPtr->position = rectVertices[index[x]];
+			m_data.lineVertexPtr->position = { rectVertices[index[x]].x, rectVertices[index[x]].y, 0.0f };
 			m_data.lineVertexPtr->color = rect.color;
 			m_data.lineVertexPtr++;
 		}

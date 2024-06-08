@@ -13,9 +13,9 @@ namespace prime {
 		static void Begin(const glm::mat4 viewProjectionMatrix);
 		static void End();
 
-		static void DrawSprite(TransformComponent transform, SpriteComponent sprite);
-		static void DrawLine(TransformComponent transform, LineComponent line);
-		static void DrawRect(TransformComponent transform, RectComponent rect);
+		static void DrawSprite(TransformComponent transform, SpriteRenderer2DComponent sprite);
+		static void DrawLine(TransformComponent transform, Line2DComponent line);
+		static void DrawRect(TransformComponent transform, Rect2DComponent rect);
 
 	private:
 		static void Init();

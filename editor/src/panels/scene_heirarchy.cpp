@@ -19,11 +19,19 @@ namespace prime {
 
 		if (m_scene)
 		{
+			// create entities
+			m_entities.clear();
 			entt::basic_view entities = m_scene->GetEntities<TransformComponent>();
 			for (entt::entity entityID : entities)
 			{
 				Entity entity{ entityID, m_scene.get() };
-				DrawEntityNode(entity);
+				m_entities.push_back(entity);
+			}
+
+			// render entities
+			for (auto iterator = m_entities.rbegin(); iterator != m_entities.rend(); ++iterator)
+			{
+				DrawEntityNode((*iterator));
 			}
 
 			if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
@@ -33,7 +41,7 @@ namespace prime {
 			if (ImGui::BeginPopupContextWindow(0, 1, false))
 			{
 				if (ImGui::MenuItem("Create Entity"))
-					m_scene->CreateEntity("Empty Entity");
+					m_scene->CreateEntity("");
 
 				ImGui::EndPopup();
 			}
@@ -55,9 +63,10 @@ namespace prime {
 		}
 
 		bool entityDeleted = false;
-		if (ImGui::BeginPopupContextItem())
+		if (ImGui::BeginPopupContextItem(name.c_str()))
 		{
 			if (ImGui::MenuItem("Delete Entity")) { entityDeleted = true; }
+
 			ImGui::EndPopup();
 		}
 
@@ -74,5 +83,4 @@ namespace prime {
 				m_selectedEntity = {};
 		}
 	}
-	
 }

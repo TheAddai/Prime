@@ -20,5 +20,7 @@ namespace prime {
 	private:
 		Ref<Scene> m_scene;
 		Entity m_selectedEntity;
+
+		std::vector<Entity> m_entities;
 	};
 }
