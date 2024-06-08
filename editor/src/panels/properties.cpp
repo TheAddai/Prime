@@ -1,6 +1,9 @@
 
 #include "pch.h"
 #include "properties.h"
+#include "engine/scene/components.h"
+#include "UI/vec3_control.h"
+#include "UI/draw_component.h"
 
 #include <imgui/imgui.h>
 
@@ -14,6 +17,16 @@ namespace prime {
 		if (m_selection)
 		{
 			DrawNameComponent();
+
+			DrawComponent<TransformComponent>("Transform", entity, false, [](auto& component)
+				{
+					float columnWidth = 60.0f;
+					DrawVec3Control("Position", component.position, 0.0f, columnWidth);
+					glm::vec3 rotation = glm::degrees(component.rotation);
+					DrawVec3Control("Rotation", rotation, 0.0f, columnWidth);
+					component.rotation = glm::radians(rotation);
+					DrawVec3Control("Scale", component.scale, 1.0f, columnWidth);
+				});
 		}
 
 		ImGui::End();

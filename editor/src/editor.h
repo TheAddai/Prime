@@ -16,6 +16,15 @@ namespace prime {
 		void Shutdown() override;
 
 		void Update(Timestep& timestep) override;
+
+		AppConfig GetConfig() override
+		{
+			AppConfig config;
+			config.maximize = true;
+
+			return config;
+		}
+
 		void OnWindowResize(const WindowResizeEvent&);
 
 	private:
