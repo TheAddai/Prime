@@ -72,9 +72,9 @@ namespace prime {
 				texture = CreateRef<OpenGLTexture2D>(path);
 				break;
 			}
+
 			s_textures[path] = texture;
 			return texture;
-			return nullptr;
 		}
 	}
 }

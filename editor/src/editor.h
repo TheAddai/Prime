@@ -5,6 +5,7 @@
 #include "panels/scene_heirarchy.h"
 #include "panels/properties.h"
 #include "panels/environment_panel.h"
+#include "panels/content_browser.h"
 
 namespace prime {
 
@@ -31,7 +32,10 @@ namespace prime {
 	private:
 		void SetColors();
 		void Dockspace();
+
 		void Viewport();
+		void ResizeViewport();
+		void MenuBar();
 
 	private:
 		Ref<Scene> m_scene;
@@ -40,9 +44,13 @@ namespace prime {
 		Ref<Framebuffer> m_framebuffer;
 		glm::vec2 m_viewportSize = glm::vec2(0.0f);
 
+		bool m_viewportFocused = false, m_viewportHovered = false;
+		glm::vec2 m_viewportBounds[2]{};
+
 		// panels
 		SceneHeirarchy m_sceneHeirarchy;
 		Properties m_properties;
 		EnvironmentPanel m_environmentPanel;
+		ContentBrowser m_contentBrowser;
 	};
 }

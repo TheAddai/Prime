@@ -29,6 +29,7 @@ namespace prime {
 
 		m_sceneHeirarchy.SetScene(m_scene);
 		m_environmentPanel.SetScene(m_scene);
+		m_contentBrowser.Init();
 	}
 
 	void Editor::Shutdown()
@@ -38,6 +39,8 @@ namespace prime {
 
 	void Editor::Update(Timestep& timestep)
 	{
+		ResizeViewport();
+
 		m_framebuffer->Bind();
 		m_scene->Render();
 		m_framebuffer->Unbind();
@@ -45,9 +48,10 @@ namespace prime {
 		m_imguiAPI->BeginRender();
 		Dockspace();
 		m_sceneHeirarchy.ImGuiRender();
-		Viewport();
 		m_properties.ImGuiRender(m_sceneHeirarchy.GetSelectedEntity());
 		m_environmentPanel.ImGuiRender();
+		m_contentBrowser.ImGuiRender();
+		Viewport();
 
 		m_imguiAPI->EndRender();
 	}
@@ -128,6 +132,7 @@ namespace prime {
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
 
+		MenuBar();
 		ImGui::End();
 	}
 	
@@ -136,13 +141,66 @@ namespace prime {
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
 
+		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
+		auto viewportOffset = ImGui::GetWindowPos();
+		m_viewportBounds[0] = { viewportMinRegion.x + viewportOffset.x, viewportMinRegion.y + viewportOffset.y };
+		m_viewportBounds[1] = { viewportMaxRegion.x + viewportOffset.x, viewportMaxRegion.y + viewportOffset.y };
+
+		m_viewportFocused = ImGui::IsWindowFocused();
+		m_viewportHovered = ImGui::IsWindowHovered();
+
 		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 		m_viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
 		uint64_t textureID = m_framebuffer->GetTextureID();
 		ImGui::Image((ImTextureID)textureID, { m_viewportSize.x, m_viewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
+		// accept draw
+		if (ImGui::BeginDragDropTarget())
+		{
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+			{
+				const wchar_t* path = (const wchar_t*)payload->Data;
+				// open scene
+			}
+			ImGui::EndDragDropTarget();
+		}
+
 		ImGui::End();
 		ImGui::PopStyleVar();
+	}
+
+	void Editor::ResizeViewport()
+	{
+		m_scene->ViewportResize((uint32_t)m_viewportSize.x, (uint32_t)m_viewportSize.y);
+
+		glm::vec2 size = glm::vec2(0.0f);
+		size.x = (float)m_framebuffer->GetWidth();
+		size.y = (float)m_framebuffer->GetHeight();
+
+		if (m_viewportSize.x > 0.0f && m_viewportSize.y > 0.0f &&
+			(size.x != m_viewportSize.x || size.y != m_viewportSize.y))
+		{
+			m_framebuffer->Resize((uint32_t)m_viewportSize.x, (uint32_t)m_viewportSize.y);
+		}
+	}
+	
+	void Editor::MenuBar()
+	{
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Exit"))
+				{
+					Engine::Close();
+				}
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMenuBar();
+		}
 	}
 }
