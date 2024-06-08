@@ -63,9 +63,15 @@ namespace prime {
 		}
 
 		bool entityDeleted = false;
+		bool selectedCamera = false;
 		if (ImGui::BeginPopupContextItem(name.c_str()))
 		{
 			if (ImGui::MenuItem("Delete Entity")) { entityDeleted = true; }
+
+			if (entity.HasComponent<CameraComponent>())
+			{
+				if (ImGui::MenuItem("Set SceneCamera")) { selectedCamera = true; }
+			}
 
 			ImGui::EndPopup();
 		}
@@ -81,6 +87,11 @@ namespace prime {
 			m_scene->DestroyEntity(entity);
 			if (m_selectedEntity == entity)
 				m_selectedEntity = {};
+		}
+
+		if (selectedCamera)
+		{
+			m_scene->SetMainCamera(entity);
 		}
 	}
 }

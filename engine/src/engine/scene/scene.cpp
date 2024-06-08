@@ -80,11 +80,21 @@ namespace prime {
 		}
 	}
 
+	Entity Scene::GetMainCamera()
+	{
+		if (m_mainCameraGUID)
+		{
+			Entity entity = Entity(m_entities[m_mainCameraGUID], this);
+			return entity;
+		}
+		return Entity();
+	}
+
 	void Scene::DrawEntities()
 	{
 		if (m_mainCameraGUID)
 		{
-			Entity cameraEntity = Entity(m_entities[m_mainCameraGUID], this);
+			Entity cameraEntity = GetMainCamera();
 
 			Camera& camera = cameraEntity.GetComponent<CameraComponent>().camera;
 			glm::mat4 transform = GetTransformNoScale(cameraEntity.GetComponent<TransformComponent>());
@@ -120,8 +130,13 @@ namespace prime {
 		}
 	}
 
+	Ref<Scene> Scene::Create(const std::string& name)
+	{
+		return CreateRef<Scene>(name);
+	}	
+
 	Ref<Scene> Scene::Create()
 	{
-		return CreateRef<Scene>();
-	}	
+		return CreateRef<Scene>("Untitled");
+	}
 }

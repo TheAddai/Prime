@@ -21,6 +21,9 @@ namespace prime {
 	class Scene
 	{
 	public:
+		Scene() = default;
+		Scene(const std::string& name) : m_name(name) {}
+
 		Entity CreateEntity(const std::string& name);
 		Entity CreateEntityWithGUID(GUID& gUID, const std::string& name);
 
@@ -32,7 +35,9 @@ namespace prime {
 		void Render();
 
 		void ViewportResize(uint32_t width, uint32_t height);
+
 		void SetMainCamera(Entity entity);
+		Entity GetMainCamera();
 
 		template<typename T>
 		auto GetEntities()
@@ -40,6 +45,9 @@ namespace prime {
 			return m_registry.view<T>();
 		}
 
+		std::string GetName() const { return m_name; }
+
+		static Ref<Scene> Create(const std::string& name);
 		static Ref<Scene> Create();
 
 	private:
@@ -49,6 +57,7 @@ namespace prime {
 		SceneState m_state = SceneState::editor;
 		entt::registry m_registry;
 
+		std::string m_name = "";
 		uint32_t m_index = 0;
 		std::map<uint64_t, entt::entity> m_entities;
 		uint64_t m_mainCameraGUID = 0;

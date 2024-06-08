@@ -28,6 +28,7 @@ namespace prime {
 		m_framebuffer = Framebuffer::Create(fbConfig);
 
 		m_sceneHeirarchy.SetScene(m_scene);
+		m_environmentPanel.SetScene(m_scene);
 	}
 
 	void Editor::Shutdown()
@@ -46,6 +47,7 @@ namespace prime {
 		m_sceneHeirarchy.ImGuiRender();
 		Viewport();
 		m_properties.ImGuiRender(m_sceneHeirarchy.GetSelectedEntity());
+		m_environmentPanel.ImGuiRender();
 
 		m_imguiAPI->EndRender();
 	}

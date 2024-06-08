@@ -4,6 +4,7 @@
 #include "imguiAPI/imguiAPI.h"
 #include "panels/scene_heirarchy.h"
 #include "panels/properties.h"
+#include "panels/environment_panel.h"
 
 namespace prime {
 
@@ -42,5 +43,6 @@ namespace prime {
 		// panels
 		SceneHeirarchy m_sceneHeirarchy;
 		Properties m_properties;
+		EnvironmentPanel m_environmentPanel;
 	};
 }
