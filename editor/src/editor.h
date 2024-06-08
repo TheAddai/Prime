@@ -3,6 +3,7 @@
 #include "engine/all.h"
 #include "imguiAPI/imguiAPI.h"
 #include "panels/scene_heirarchy.h"
+#include "panels/properties.h"
 
 namespace prime {
 
@@ -31,5 +32,6 @@ namespace prime {
 
 		// panels
 		SceneHeirarchy m_sceneHeirarchy;
+		Properties m_properties;
 	};
 }
