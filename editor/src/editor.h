@@ -22,6 +22,7 @@ namespace prime {
 		AppConfig GetConfig() override
 		{
 			AppConfig config;
+			config.title = "Prime Editor";
 			config.maximize = true;
 
 			return config;

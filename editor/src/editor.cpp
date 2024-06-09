@@ -209,16 +209,15 @@ namespace prime {
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Exit"))
-				{
-					Engine::Close();
-				}
-
-				ImGui::Separator();
-
 				if (ImGui::MenuItem("New Project...", "Ctrl+Shift+N"))
 				{
 					m_newProject = true;
+				}
+
+				ImGui::Separator();
+				if (ImGui::MenuItem("Exit"))
+				{
+					Engine::Close();
 				}
 
 				ImGui::EndMenu();
@@ -308,15 +307,20 @@ namespace prime {
 			ImGui::SetCursorPos({ pos.x + 307.0f, pos.y + 100.0f });
 			if (ImGui::Button("...", {20.0f, 20.0f}))
 			{
-				
+				std::filesystem::path filepath = FileDialog::GetFilePath();
+				m_config.path = filepath;
 			}
-
 
 			// create button
 			ImGui::SetCursorPos({ pos.x - offset, pos.y + 160.0f });
 			if (ImGui::Button("Create", buttonSize))
 			{
-
+				m_project = Project::Create(m_config);
+				Ref<Scene>& activeScene = m_project->GetActiveScene();
+				m_contentBrowser.Init(m_project);
+				m_environmentPanel.SetScene(activeScene);
+				m_sceneHeirarchy.SetScene(activeScene);
+				m_newProject = false;
 			}
 
 			// exit button

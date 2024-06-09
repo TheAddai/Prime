@@ -21,7 +21,7 @@ namespace prime {
 		Project() = default;
 		Project(const ProjectConfig& config);
 
-		std::filesystem::path GetPath() { return m_config.path; }
+		std::filesystem::path GetPath() { return m_config.path / m_config.name; }
 		std::filesystem::path GetAssetsPath() {  return GetPath() / "Assets"; }
 		std::filesystem::path GetScenesPath() {  return GetPath() / "Scenes"; }
 

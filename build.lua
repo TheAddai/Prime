@@ -27,6 +27,7 @@ workspace "prime"
     }
 
     externalwarnings "off"
+    characterset "ASCII"
 
     filter {"system:windows", "configurations:*"}
         architecture "x64"
