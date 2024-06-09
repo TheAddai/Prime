@@ -37,6 +37,8 @@ namespace prime {
 		void ResizeViewport();
 		void MenuBar();
 
+		void NewProject();
+
 	private:
 		std::unique_ptr<ImGuiAPI> m_imguiAPI;
 
@@ -47,6 +49,9 @@ namespace prime {
 		glm::vec2 m_viewportBounds[2]{};
 
 		Ref<Project> m_project;
+		ProjectConfig m_config;
+		Ref<Texture2D> m_projectTemplate;
+		bool m_newProject = false;
 
 		// panels
 		SceneHeirarchy m_sceneHeirarchy;

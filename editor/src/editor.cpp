@@ -2,8 +2,20 @@
 #include "editor.h"
 
 #include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
 
 namespace prime {
+
+	static const char* GetStringFromType(AppType type)
+	{
+		switch (type)
+		{
+		case prime::appType2D: return "2D"; break;
+		case prime::appType3D: return "3D"; break;
+			break;
+		}
+		return "";
+	}
 
 	void Editor::Init()
 	{
@@ -25,6 +37,8 @@ namespace prime {
 		fbConfig.width = 1280;
 		fbConfig.height = 720;
 		m_framebuffer = Framebuffer::Create(fbConfig);
+
+		m_projectTemplate = Texture2D::Create(TextureConfig());
 	}
 
 	void Editor::Shutdown()
@@ -41,15 +55,18 @@ namespace prime {
 			m_framebuffer->Bind();
 			m_project->GetActiveScene()->Render();
 			m_framebuffer->Unbind();
-		}	
+		}
 
 		m_imguiAPI->BeginRender();
+
 		Dockspace();
 		m_sceneHeirarchy.ImGuiRender();
 		m_properties.ImGuiRender(m_sceneHeirarchy.GetSelectedEntity());
 		m_environmentPanel.ImGuiRender();
 		m_contentBrowser.ImGuiRender();
 		Viewport();
+
+		NewProject();
 
 		m_imguiAPI->EndRender();
 	}
@@ -132,7 +149,7 @@ namespace prime {
 		MenuBar();
 		ImGui::End();
 	}
-	
+
 	void Editor::Viewport()
 	{
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
@@ -185,7 +202,7 @@ namespace prime {
 			m_framebuffer->Resize((uint32_t)m_viewportSize.x, (uint32_t)m_viewportSize.y);
 		}
 	}
-	
+
 	void Editor::MenuBar()
 	{
 		if (ImGui::BeginMenuBar())
@@ -197,10 +214,119 @@ namespace prime {
 					Engine::Close();
 				}
 
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("New Project...", "Ctrl+Shift+N"))
+				{
+					m_newProject = true;
+				}
+
 				ImGui::EndMenu();
 			}
 
 			ImGui::EndMenuBar();
+		}
+	}
+
+	void Editor::NewProject()
+	{
+		if (m_newProject)
+		{
+			ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollWithMouse;
+			flags |= ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoDocking;
+
+			ImGui::Begin("Create Project", NULL, flags);
+			ImVec2 buttonSize = { 100.0f, 30.0f };
+			ImVec2 windowSize = { 640.0f, 480.0f };
+			ImVec2 pos = { 0.0f, 0.0f };
+			float offset = 100.0f;
+			pos.x = windowSize.x / 2.0f - buttonSize.x / 2.0f;
+			pos.y = windowSize.y / 2.0f - buttonSize.y / 2.0f;
+			ImGui::SetWindowSize("Create Project", windowSize);
+
+			// template image
+			ImGui::SetCursorPos({ 120.0f, 40.0f });
+			uint64_t textureID = m_projectTemplate->GetHandle();
+			ImGui::Image((ImTextureID)textureID, { 400.0f, 200.0f }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+			// project types
+			ImGui::SetCursorPos({ pos.x - 200.0f, pos.y + 40 });
+			ImGui::Text("%s", "Project Type: ");
+
+			ImGui::PushMultiItemsWidths(1, ImGui::CalcItemWidth());
+			ImGui::SameLine(0.0f, 15.0f);
+			const char* projectTypeStrings[] = { "2D", "3D" };
+			const char* currentProjectTypeString = GetStringFromType(m_config.type);
+			if (ImGui::BeginCombo("##ProjectTypes", currentProjectTypeString))
+			{
+				for (int i = 0; i < 2; i++)
+				{
+					bool isSelected = currentProjectTypeString == projectTypeStrings[i];
+					if (ImGui::Selectable(projectTypeStrings[i], isSelected))
+					{
+						currentProjectTypeString = projectTypeStrings[i];
+						m_config.type = (AppType)i;
+					}
+
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+
+			// project name
+			ImGui::SetCursorPos({ pos.x - 200.0f, pos.y + 70 });
+			ImGui::Text("%s", "Project Name: ");
+
+			char nameBuffer[50];
+			memset(nameBuffer, 0, sizeof(nameBuffer));
+			strncpy_s(nameBuffer, sizeof(nameBuffer), m_config.name.c_str(), sizeof(nameBuffer));
+
+			ImGui::SameLine(0.0f);
+			if (ImGui::InputText("##ProjectName", nameBuffer, sizeof(nameBuffer), ImGuiInputTextFlags_AutoSelectAll))
+			{
+				m_config.name = std::string(nameBuffer);
+			}
+
+			// project path
+			ImGui::SetCursorPos({ pos.x - 200.0f, pos.y + 100 });
+			ImGui::Text("%s", "Project Path: ");
+
+			char pathBuffer[256];
+			memset(pathBuffer, 0, sizeof(pathBuffer));
+			strncpy_s(pathBuffer, sizeof(pathBuffer), m_config.path.string().c_str(), sizeof(pathBuffer));
+
+			ImGui::SameLine(0.0f, 15.0f);
+			if (ImGui::InputText("##ProjectPath", pathBuffer, sizeof(pathBuffer), ImGuiInputTextFlags_AutoSelectAll))
+			{
+				m_config.path = std::string(pathBuffer);
+			}
+
+			ImGui::PopItemWidth();
+
+			// path button
+			ImGui::SetCursorPos({ pos.x + 307.0f, pos.y + 100.0f });
+			if (ImGui::Button("...", {20.0f, 20.0f}))
+			{
+				
+			}
+
+
+			// create button
+			ImGui::SetCursorPos({ pos.x - offset, pos.y + 160.0f });
+			if (ImGui::Button("Create", buttonSize))
+			{
+
+			}
+
+			// exit button
+			ImGui::SetCursorPos({ pos.x + offset, pos.y + 160.0f });
+			if (ImGui::Button("Exit", buttonSize))
+			{
+				m_newProject = false;
+			}
+
+			ImGui::End();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "scene.h"
+#include "engine/core/app.h"
 
 #include <vector>
 #include <filesystem>
@@ -9,6 +10,7 @@ namespace prime {
 
 	struct ProjectConfig
 	{
+		AppType type = AppType::appType2D;
 		std::string name = "Prime Project";
 		std::filesystem::path path = "";
 	};
